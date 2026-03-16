@@ -1,0 +1,31 @@
+name: Scrape Erfurt Events
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4 lxml icalendar
+
+      - name: Run scraper
+        run: python scrape_erfurt_events.py
+
+      - name: Push updated files
+        run: |
+          git config user.email "ydiaz72@gmail.com"
+          git config user.name "ydiaz72-netizen"
+          git add index.html index_files/
+          git commit -m "daily update" || echo "Nothing to commit"
+          git push
