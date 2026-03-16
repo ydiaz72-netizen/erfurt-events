@@ -13,30 +13,30 @@ html { font-family: 'Inter', sans-serif; font-size: 15px; scroll-behavior: smoot
 
 /* ── CSS Variables ── */
 html.dark {
-  --bg:       #0f172a;
-  --surface:  #1e293b;
-  --surface2: #273548;
-  --border:   #334155;
-  --text:     #e2e8f0;
-  --text-muted: #94a3b8;
-  --accent:   #dc2626;
-  --accent-h: #b91c1c;
-  --header-bg:#0a1628;
+  --bg:       #1a0a0d;
+  --surface:  #2a1218;
+  --surface2: #351820;
+  --border:   #4d2028;
+  --text:     #f0e8e9;
+  --text-muted: #c4909a;
+  --accent:   #c0172c;
+  --accent-h: #96101f;
+  --header-bg:#0d0507;
   --badge-gov:#1d4ed8;
   --badge-prv:#92400e;
   --shadow:   0 4px 20px rgba(0,0,0,.45);
   --card-shadow: 0 2px 12px rgba(0,0,0,.35);
 }
 html.light {
-  --bg:       #f1f5f9;
+  --bg:       #fdf5f5;
   --surface:  #ffffff;
-  --surface2: #f8fafc;
-  --border:   #e2e8f0;
-  --text:     #1e293b;
-  --text-muted: #64748b;
-  --accent:   #dc2626;
-  --accent-h: #b91c1c;
-  --header-bg:#1e293b;
+  --surface2: #fef0f0;
+  --border:   #f0d0d4;
+  --text:     #1a0508;
+  --text-muted: #7a4048;
+  --accent:   #c0172c;
+  --accent-h: #96101f;
+  --header-bg:#8b0016;
   --badge-gov:#1d4ed8;
   --badge-prv:#b45309;
   --shadow:   0 4px 20px rgba(0,0,0,.10);
@@ -141,9 +141,14 @@ header {
 .filters-inner {
   max-width: 1400px;
   margin: 0 auto;
-  padding: .6rem 1.5rem;
+  padding: .5rem 1.5rem;
   display: flex;
-  gap: .75rem;
+  flex-direction: column;
+  gap: .4rem;
+}
+.filter-row {
+  display: flex;
+  gap: .5rem;
   flex-wrap: wrap;
   align-items: center;
 }
@@ -451,16 +456,18 @@ footer a:hover { text-decoration: underline; }
   </div>
   <div class="stats-bar">
     <span>📅 <span class="de">Stand</span><span class="en">Updated</span>: 16.03.2026</span>
-    <span>📋 <span id="stat-total">16</span> <span class="de">Veranstaltungen</span><span class="en">Events</span></span>
+    <span>📋 <span id="stat-total">18</span> <span class="de">Veranstaltungen</span><span class="en">Events</span></span>
     <span>🏛️ 5 <span class="de">Quellen</span><span class="en">Sources</span></span>
   </div>
 </header>
 
 <div class="filters-wrap">
   <div class="filters-inner">
-    <span class="filter-label de">Kategorie</span>
-    <span class="filter-label en">Category</span>
-        <button class="filter-btn active" data-cat="all" onclick="filterCat(this)">
+    <!-- Row 1: Category -->
+    <div class="filter-row">
+      <span class="filter-label de">Kategorie</span>
+      <span class="filter-label en">Category</span>
+          <button class="filter-btn active" data-cat="all" onclick="filterCat(this)">
       <span class="de">Alle</span><span class="en">All</span>
     </button>
     <button class="filter-btn" data-cat="Konzerte" onclick="filterCat(this)">
@@ -481,28 +488,68 @@ footer a:hover { text-decoration: underline; }
     <button class="filter-btn" data-cat="Sozialprogramme" onclick="filterCat(this)">
       🤝 <span class="de">Sozialprogramme</span><span class="en">Social Programs</span>
     </button>
-    <div class="filter-divider"></div>
-    <button class="filter-btn active" data-type="all" onclick="filterType(this)">
-      <span class="de">Alle Träger</span><span class="en">All Organizers</span>
+    </div>
+    <!-- Row 2: Date range -->
+    <div class="filter-row">
+      <span class="filter-label de">Zeitraum</span>
+      <span class="filter-label en">Period</span>
+      <button class="filter-btn active" data-date="all" onclick="filterDate(this)">
+        <span class="de">Alle</span><span class="en">All</span>
+      </button>
+      <button class="filter-btn" data-date="today" onclick="filterDate(this)">
+        <span class="de">Heute</span><span class="en">Today</span>
+      </button>
+      <button class="filter-btn" data-date="week" onclick="filterDate(this)">
+        <span class="de">Diese Woche</span><span class="en">This Week</span>
+      </button>
+      <button class="filter-btn" data-date="month" onclick="filterDate(this)">
+        <span class="de">Diesen Monat</span><span class="en">This Month</span>
+      </button>
+    </div>
+    <!-- Row 3: Organizer type + Source -->
+    <div class="filter-row">
+      <span class="filter-label de">Träger</span>
+      <span class="filter-label en">Organizer</span>
+      <button class="filter-btn active" data-type="all" onclick="filterType(this)">
+        <span class="de">Alle</span><span class="en">All</span>
+      </button>
+      <button class="filter-btn" data-type="staatlich" onclick="filterType(this)">
+        🏛️ <span class="de">Staatlich</span><span class="en">Government</span>
+      </button>
+      <button class="filter-btn" data-type="privat" onclick="filterType(this)">
+        🏢 <span class="de">Privat</span><span class="en">Private</span>
+      </button>
+      <div class="filter-divider"></div>
+      <span class="filter-label de">Quelle</span>
+      <span class="filter-label en">Source</span>
+          <button class="filter-btn active" data-src="all" onclick="filterSrc(this)">
+      <span class="de">Alle Quellen</span><span class="en">All Sources</span>
     </button>
-    <button class="filter-btn" data-type="staatlich" onclick="filterType(this)">
-      🏛️ <span class="de">Staatlich</span><span class="en">Government</span>
+    <button class="filter-btn" data-src="Frauenzentrum Erfurt" onclick="filterSrc(this)">
+      Frauenzentrum Erfurt
     </button>
-    <button class="filter-btn" data-type="privat" onclick="filterType(this)">
-      🏢 <span class="de">Privat</span><span class="en">Private</span>
+    <button class="filter-btn" data-src="Programm März" onclick="filterSrc(this)">
+      Programm März
     </button>
+    <button class="filter-btn" data-src="Stadt Erfurt" onclick="filterSrc(this)">
+      Stadt Erfurt
+    </button>
+    <button class="filter-btn" data-src="Theater Erfurt" onclick="filterSrc(this)">
+      Theater Erfurt
+    </button>
+    </div>
   </div>
 </div>
 
 <main>
   <div class="count-bar">
-    <span id="visible-count">16</span>
+    <span id="visible-count">18</span>
     <span class="de">Veranstaltungen angezeigt</span>
     <span class="en">events shown</span>
   </div>
   <div class="events-grid" id="events-grid">
 
-  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-03-30" data-source="Stadt Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/Die_Hauptseite_zu_Veranstaltungen_a_17991e.png" alt="" loading="lazy">
       <div class="card-badges">
@@ -531,7 +578,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-03-30" data-source="Stadt Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/Veranstaltungskalender_a6f0d3.jpg" alt="" loading="lazy">
       <div class="card-badges">
@@ -560,7 +607,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-03-30" data-source="Stadt Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/Brettspiele_für_alle_30ca7e.jpg" alt="" loading="lazy">
       <div class="card-badges">
@@ -589,7 +636,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-03-29" data-source="Stadt Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/Menschheitsverbrechen_und_Berufsall_e82c73.jpg" alt="" loading="lazy">
       <div class="card-badges">
@@ -618,7 +665,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-03-28" data-source="Stadt Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/Samstagstreff_im_Leseland_1861c6.png" alt="" loading="lazy">
       <div class="card-badges">
@@ -647,7 +694,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-03-28" data-source="Stadt Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/Erfurter_Altstadtfrühling_4c91d6.jpg" alt="" loading="lazy">
       <div class="card-badges">
@@ -676,7 +723,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Konzerte" data-type="staatlich">
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="2026-03-28" data-source="Stadt Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/Saisonstart_2026_am_Bartholomäustur_19615e.jpg" alt="" loading="lazy">
       <div class="card-badges">
@@ -705,7 +752,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Kultur" data-type="staatlich">
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2026-03-28" data-source="Stadt Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/Vernissage__Dem_Himmel_so_nah__Wolk_7401ba.jpg" alt="" loading="lazy">
       <div class="card-badges">
@@ -734,7 +781,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-01-28" data-source="Stadt Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/Seelisch_fit_in_Erfurt_2026__Verans_ded1c2.jpg" alt="" loading="lazy">
       <div class="card-badges">
@@ -763,7 +810,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-03-27" data-source="Stadt Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/Batik_Eggs__Besondere_Zierde_für_de_8c84c5.png" alt="" loading="lazy">
       <div class="card-badges">
@@ -792,7 +839,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Konzerte" data-type="staatlich">
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="2026-03-27" data-source="Stadt Erfurt">
     <div class="card-img-wrap">
       <div class="no-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span class="de">Kein Bild</span><span class="en">No Image</span></div>
       <div class="card-badges">
@@ -821,7 +868,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Konzerte" data-type="staatlich">
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="2026-03-27" data-source="Stadt Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/1__Frühlingskonzert_Erfurter_Chöre_2a1f6d.jpg" alt="" loading="lazy">
       <div class="card-badges">
@@ -850,7 +897,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Sozialprogramme" data-type="privat">
+  <div class="event-card" data-category="Sozialprogramme" data-type="privat" data-date="2026-03-17" data-source="Frauenzentrum Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/Café_irgendwie_anders_fc0309.png" alt="" loading="lazy">
       <div class="card-badges">
@@ -879,7 +926,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Sozialprogramme" data-type="privat">
+  <div class="event-card" data-category="Sozialprogramme" data-type="privat" data-date="2026-03-19" data-source="Frauenzentrum Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/Café_Creme_1c68d7.png" alt="" loading="lazy">
       <div class="card-badges">
@@ -908,7 +955,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Sozialprogramme" data-type="privat">
+  <div class="event-card" data-category="Sozialprogramme" data-type="privat" data-date="2026-03-23" data-source="Frauenzentrum Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/Bewerbungsunterlagen__die_überzeuge_32c513.png" alt="" loading="lazy">
       <div class="card-badges">
@@ -937,7 +984,7 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
-  <div class="event-card" data-category="Sozialprogramme" data-type="privat">
+  <div class="event-card" data-category="Sozialprogramme" data-type="privat" data-date="2026-03-24" data-source="Frauenzentrum Erfurt">
     <div class="card-img-wrap">
       <img src="index_files/Triff_die_Gleichstellungsbeauftragt_99dd74.png" alt="" loading="lazy">
       <div class="card-badges">
@@ -966,6 +1013,64 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="" data-source="Theater Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Trailer___Spielzeit_2025_26__UNTERW_46eb54.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.theater-erfurt.de/videos/trailer-spielzeit-2025-26-unterwegs-theater-erfurt" target="_blank" rel="noopener">Trailer | Spielzeit 2025/26 &quot;UNTERWEGS&quot; | Theater Erfurt</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Theater Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Theater Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.theater-erfurt.de/videos/trailer-spielzeit-2025-26-unterwegs-theater-erfurt" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Trailer | Spielzeit 2025/26 "UNTERWEGS" | Theater Erfurt','','Theater Erfurt','','https://www.theater-erfurt.de/videos/trailer-spielzeit-2025-26-unterwegs-theater-erfurt')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sozialprogramme" data-type="privat" data-date="" data-source="Programm März">
+    <div class="card-img-wrap">
+      <div class="no-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span class="de">Kein Bild</span><span class="en">No Image</span></div>
+      <div class="card-badges">
+        <span class="badge-type privat"><span class="de">Privat</span><span class="en">Private</span></span>
+        <span class="badge-cat" style="background:#db2777">🤝 <span class="de">Sozialprogramme</span><span class="en">Social Programs</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="" target="_blank" rel="noopener">Kurse für Frauen Rat und Hilfe</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>Sport für Seniorinnen* 14.00 - 15.00 Uhr wöchentlich 15.00 - 16.00 Uhr wöchentlich إذا كنو يف وأ لة أم يف وضع صعب، نوة نص مك فب يف اد دل ل ل. Fit und Standfest im Alltag* 16.15 - 17.15 Uhr 31.03. - 16.06. Якщо ви в проблемі або в складній ситуації, ми підтримуємо вас у Anmeldung bis 13.03./17.04., 12.00 Uhr пошуку рішень. Pilates** 15.45 - 16.30 Uhr 25.03. - 27.05. Auf unserer Homepage findest Du eine Zusammenstellung von Anlaufstellen, an die 17.00 - 17.45 Uhr 25.03. - 27.05. Frauensport* 18.00 - 19.00 Uhr wöchentlich DONNERSTAGS Montags, 10.00 - 11.00 Uhr, wöchentlich Anmeldung bis 23.03./27.04., 12.00 Uhr Stressbewältigung** 16.45 - 18.15 Uhr ab 05.03. Yoga* 18.30 - 19.45 Uhr bis 21.04. Nur mit Anmeldung. Dienstags von 15.00-17.00 Uhr Yoga sanft / Beckenboden** 09.30 - 11.00 Uhr bis 27.03. Regelmässige Angebbote Jeden zweiten Mittwoch im Monat, 16.00-18.00 Uhr Montag, 16.00 - 17.00 Uhr, wöchentlich Jeden ersten Mittwoch im Monat, 15.00-16.00 Uhr Dienstag, 10.00-12.00 Uhr, wöchentlich Allgemeine Rechtsberatung, Familienrecht und Arbeitsrecht دیدمآ شوخ - لاهسو لاهأ Mittwoch, 18.30-19.30 Uhr, wöchentlich Terminvereinbarung individuell Deutsch | Donnerstag, 17.00 - 18.00 Uhr, wöchentlich (Bildungswerk der Thüringer Wirtschaft e.V.). Nur mit Anmeldung. www.frauenzentrum-erfurt.de Englisch | jeden zweiten Donnerstag im Monat, 17.00 - 18.00 Uhr Jeden ersten Donnerstag im Monat, 16.00-18.00 Uhr Frauen– und FamilienZentrum Erfurt e. V. Dienstag, 17.03., 16.00 - 17.00 Uhr Dienstag, 31.03., 17.00 - 19.00 Uhr Donnerstag, 05.03., 17.00 - 19.00 Uhr Kuchen sprechen wir dieses Mal über das Thema Frauen mit Behinderung. ist voll, aber Du hast nichts zum Anziehen? Dann tausche stellung und Empowerment aufmerksam zu machen. In Kooperation mit LaFiT e. V.. Kosten 5,-€. Wir bitten um Anmeldung bis 10.03., 12.00 Uhr. sie gegen zehn neue Lieblingsstücke. Kosten: 2,- Mitmacheuro Donnerstag, 19.03./16.04., 15.00 - 16.30 Uhr Spüren. Gestalten. Stärken Bei köstlichem Kaffee und hausgebackener Torte laden wir Dich ein, über Samstag, 11.04., 11.00 - 14.00 Uhr Unser Tipp: Montag, 23.03., 16.30 - 18.00 Uhr Dienstag, 14.04., 16.30 - 17.30 Uhr Vernissage: Samstag, 14.03., ab 18.00 Uhr | Kunsthalle Erfurt schreiben und vollständigen Bewerbungsunterlagen (auch online) wirklich Wir bitten um Anmeldung bis 07.04., 12.00 Uhr. mit einem Infostand vor Ort und freuen uns auf Gespräche mit Dir! Dienstag, 24.03., 16.00 - 18.00 Uhr | 28.04., 14.00 - 17.00 Uhr Donnerstag, 02.04., 17.30 - 19.00 Uhr Dienstag, 24.03., 18.00 - 20.00 Uhr Dienstag, 10.03., ab 19.30 Uhr | Haus Dacheröden all das unseren Alltag beeinflusst. Herz. Ideen, Einsichten und Visionen öffnen sich. on mit der Heinrich-Böll-Stiftung Thüringen e.V. und Kraftwerke-Culture.Equality.Now! Samstag/Sonntag, 25.04./26.04., jeweils 09.00 - 15.00 Uhr Donnerstag, 12.03./09.04. 10.00 - 12.00 Uhr Donnerstag, 26.03./23.04., ab 10.00 Uhr | Treffpunkt: FrauenZentrum Erfurt und deren Mütter, (Paten)-Tanten oder Omas. WenDo ist ein alltags- Donnerstag, 12.03., 16.00 - 18.30 Uhr Dein Frühstück mit Begegnung, Gesprächen und Gedankenaustausch. Powerbini´s Häkelwelt - Tierchen zum Kuscheln und Liebhaben Der Stammtisch richtet sich an Frauen mit Migrationshintergrund, die Starte mit uns gemeinsam in den Tag und knüpfe neue Kontakte! Mittwoch, 29.04., 16.00 - 17.30 Uhr bis 22.04., 12.00 Uhr. | * japanische Strick- und Häkelkunst</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Programm März</span>
+      </div>
+      <div class="card-price"><span class="price-amount">schluss und mind. B2 Sprachkenntnisse. se sind nicht erforderlich. Material vorhanden. Kosten: 3 €. Wir bitten um Anmeldung</span></div>
+      <div class="card-actions">
+        <a href="" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Kurse für Frauen Rat und Hilfe','Sport für Seniorinnen* 14.00 - 15.00 Uhr wöchentlich 15.00 - 16.00 Uhr wöchentlich إذا كنو يف وأ لة أم يف وضع صعب، نوة نص مك فب يف اد دل ل ل. Fit und Standfest im Alltag* 16.15 - 17.15 Uhr 31.03. - 16.06. Якщо ви в проблемі або в складній ситуації, ми підтримуємо вас у Anmeldung bis 13.03./17.04., 12.00 Uhr пошуку рішень. Pilates** 15.45 - 16.30 Uhr 25.03. - 27.05. Auf unserer Homepage findest Du eine Zusammenstellung von Anlaufstellen, an die 17.00 - 17.45 Uhr 25.03. - 27.05. Frauensport* 18.00 - 19.00 Uhr wöchentlich DONNERSTAGS Montags, 10.00 - 11.00 Uhr, wöchentlich Anmeldung bis 23.03./27.04., 12.00 Uhr Stressbewältigung** 16.45 - 18.15 Uhr ab 05.03. Yoga* 18.30 - 19.45 Uhr bis 21.04. Nur mit Anmeldung. Dienstags von 15.00-17.00 Uhr Yoga sanft / Beckenboden** 09.30 - 11.00 Uhr bis 27.03. Regelmässige Angebbote Jeden zweiten Mittwoch im Monat, 16.00-18.00 Uhr Montag, 16.00 - 17.00 Uhr, wöchentlich Jeden ersten Mittwoch im Monat, 15.00-16.00 Uhr Dienstag, 10.00-12.00 Uhr, wöchentlich Allgemeine Rechtsberatung, Familienrecht und Arbeitsrecht دیدمآ شوخ - لاهسو لاهأ Mittwoch, 18.30-19.30 Uhr, wöchentlich Terminvereinbarung individuell Deutsch | Donnerstag, 17.00 - 18.00 Uhr, wöchentlich (Bildungswerk der Thüringer Wirtschaft e.V.). Nur mit Anmeldung. www.frauenzentrum-erfurt.de Englisch | jeden zweiten Donnerstag im Monat, 17.00 - 18.00 Uhr Jeden ersten Donnerstag im Monat, 16.00-18.00 Uhr Frauen– und FamilienZentrum Erfurt e. V. Dienstag, 17.03., 16.00 - 17.00 Uhr Dienstag, 31.03., 17.00 - 19.00 Uhr Donnerstag, 05.03., 17.00 - 19.00 Uhr Kuchen sprechen wir dieses Mal über das Thema Frauen mit Behinderung. ist voll, aber Du hast nichts zum Anziehen? Dann tausche stellung und Empowerment aufmerksam zu machen. In Kooperation mit LaFiT e. V.. Kosten 5,-€. Wir bitten um Anmeldung bis 10.03., 12.00 Uhr. sie gegen zehn neue Lieblingsstücke. Kosten: 2,- Mitmacheuro Donnerstag, 19.03./16.04., 15.00 - 16.30 Uhr Spüren. Gestalten. Stärken Bei köstlichem Kaffee und hausgebackener Torte laden wir Dich ein, über Samstag, 11.04., 11.00 - 14.00 Uhr Unser Tipp: Montag, 23.03., 16.30 - 18.00 Uhr Dienstag, 14.04., 16.30 - 17.30 Uhr Vernissage: Samstag, 14.03., ab 18.00 Uhr | Kunsthalle Erfurt schreiben und vollständigen Bewerbungsunterlagen (auch online) wirklich Wir bitten um Anmeldung bis 07.04., 12.00 Uhr. mit einem Infostand vor Ort und freuen uns auf Gespräche mit Dir! Dienstag, 24.03., 16.00 - 18.00 Uhr | 28.04., 14.00 - 17.00 Uhr Donnerstag, 02.04., 17.30 - 19.00 Uhr Dienstag, 24.03., 18.00 - 20.00 Uhr Dienstag, 10.03., ab 19.30 Uhr | Haus Dacheröden all das unseren Alltag beeinflusst. Herz. Ideen, Einsichten und Visionen öffnen sich. on mit der Heinrich-Böll-Stiftung Thüringen e.V. und Kraftwerke-Culture.Equality.Now! Samstag/Sonntag, 25.04./26.04., jeweils 09.00 - 15.00 Uhr Donnerstag, 12.03./09.04. 10.00 - 12.00 Uhr Donnerstag, 26.03./23.04., ab 10.00 Uhr | Treffpunkt: FrauenZentrum Erfurt und deren Mütter, (Paten)-Tanten oder Omas. WenDo ist ein alltags- Donnerstag, 12.03., 16.00 - 18.30 Uhr Dein Frühstück mit Begegnung, Gesprächen und Gedankenaustausch. Powerbini´s Häkelwelt - Tierchen zum Kuscheln und Liebhaben Der Stammtisch richtet sich an Frauen mit Migrationshintergrund, die Starte mit uns gemeinsam in den Tag und knüpfe neue Kontakte! Mittwoch, 29.04., 16.00 - 17.30 Uhr bis 22.04., 12.00 Uhr. | * japanische Strick- und Häkelkunst','Erfurt','* Kosten sind bei der Kursleiterin zu erfragen | ** anerkannter Präventionskurs der KK Frauenberatung/ Psychosoziale Beratung Laufender Kurseinstieg ist möglich. Wir bitten um Anmeldung. Montags In sc','')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
   </div>
 </main>
 
@@ -975,7 +1080,7 @@ footer a:hover { text-decoration: underline; }
     <a href="https://www.erfurt.de/veranstaltungen" target="_blank">Stadt Erfurt</a> ·
     <a href="https://www.frauenzentrum-erfurt.de" target="_blank">Frauenzentrum</a> ·
     <a href="https://www.theater-erfurt.de" target="_blank">Theater Erfurt</a> ·
-    <a href="https://angermuseum.de" target="_blank">Anger Museum</a> ·
+    <a href="https://kunstmuseen.erfurt.de/angermuseum" target="_blank">Anger Museum</a> ·
     <a href="https://www.egapark-erfurt.de" target="_blank">EGA Park</a>
   </div>
   <div><span class="de">Generiert am</span><span class="en">Generated on</span> 16.03.2026</div>
@@ -1004,27 +1109,57 @@ function toggleTheme() {
 // ── Filters ──────────────────────────────────────────────────────────────────
 let activeCat  = 'all';
 let activeType = 'all';
+let activeDate = 'all';
+let activeSrc  = 'all';
 
 function filterCat(btn) {
-  document.querySelectorAll('[data-cat]').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn[data-cat]').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   activeCat = btn.dataset.cat;
   applyFilters();
 }
 
 function filterType(btn) {
-  document.querySelectorAll('[data-type]').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn[data-type]').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   activeType = btn.dataset.type;
   applyFilters();
 }
 
+function filterDate(btn) {
+  document.querySelectorAll('.filter-btn[data-date]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeDate = btn.dataset.date;
+  applyFilters();
+}
+
+function filterSrc(btn) {
+  document.querySelectorAll('.filter-btn[data-src]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeSrc = btn.dataset.src;
+  applyFilters();
+}
+
 function applyFilters() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const weekEnd = new Date(today); weekEnd.setDate(today.getDate() + 7);
+  const monthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
   let count = 0;
   document.querySelectorAll('.event-card').forEach(card => {
     const catOk  = activeCat  === 'all' || card.dataset.category === activeCat;
     const typeOk = activeType === 'all' || card.dataset.type     === activeType;
-    const show   = catOk && typeOk;
+    const srcOk  = activeSrc  === 'all' || card.dataset.source   === activeSrc;
+
+    let dateOk = true;
+    if (activeDate !== 'all' && card.dataset.date) {
+      const d = new Date(card.dataset.date); d.setHours(0,0,0,0);
+      if (activeDate === 'today') dateOk = d.getTime() === today.getTime();
+      else if (activeDate === 'week')  dateOk = d >= today && d <= weekEnd;
+      else if (activeDate === 'month') dateOk = d >= today && d <= monthEnd;
+    }
+
+    const show = catOk && typeOk && dateOk && srcOk;
     card.classList.toggle('hidden', !show);
     if (show) count++;
   });
