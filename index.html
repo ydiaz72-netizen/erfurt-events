@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Erfurt Veranstaltungen / Events</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-family: 'Inter', sans-serif; font-size: 15px; scroll-behavior: smooth; }
+
+/* ── CSS Variables ── */
+html.dark {
+  --bg:       #0f172a;
+  --surface:  #1e293b;
+  --surface2: #273548;
+  --border:   #334155;
+  --text:     #e2e8f0;
+  --text-muted: #94a3b8;
+  --accent:   #dc2626;
+  --accent-h: #b91c1c;
+  --header-bg:#0a1628;
+  --badge-gov:#1d4ed8;
+  --badge-prv:#92400e;
+  --shadow:   0 4px 20px rgba(0,0,0,.45);
+  --card-shadow: 0 2px 12px rgba(0,0,0,.35);
+}
+html.light {
+  --bg:       #f1f5f9;
+  --surface:  #ffffff;
+  --surface2: #f8fafc;
+  --border:   #e2e8f0;
+  --text:     #1e293b;
+  --text-muted: #64748b;
+  --accent:   #dc2626;
+  --accent-h: #b91c1c;
+  --header-bg:#1e293b;
+  --badge-gov:#1d4ed8;
+  --badge-prv:#b45309;
+  --shadow:   0 4px 20px rgba(0,0,0,.10);
+  --card-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+/* ── Language ── */
+html[lang="de"] .en { display: none; }
+html[lang="en"] .de { display: none; }
+
+/* ── Body ── */
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* ── Header ── */
+header {
+  background: var(--header-bg);
+  border-bottom: 2px solid var(--accent);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex: 1 1 auto;
+}
+.header-logo .city-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+.header-logo h1 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+.header-logo .subtitle {
+  font-size: .75rem;
+  color: #94a3b8;
+  margin-top: .1rem;
+}
+.header-controls {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}
+.btn-ctrl {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  color: #fff;
+  padding: .4rem .8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: .8rem;
+  font-weight: 500;
+  font-family: inherit;
+  transition: background .15s;
+  white-space: nowrap;
+}
+.btn-ctrl:hover { background: rgba(255,255,255,.2); }
+.btn-ctrl.active { background: var(--accent); border-color: var(--accent); }
+
+/* ── Stats bar ── */
+.stats-bar {
+  background: rgba(0,0,0,.2);
+  padding: .4rem 1.5rem;
+  font-size: .75rem;
+  color: #94a3b8;
+  display: flex;
+  gap: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+.stats-bar span { display: flex; align-items: center; gap: .3rem; }
+
+/* ── Filters ── */
+.filters-wrap {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 72px;
+  z-index: 90;
+}
+.filters-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: .6rem 1.5rem;
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-label {
+  font-size: .7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  white-space: nowrap;
+  padding-right: .25rem;
+}
+.filter-divider {
+  width: 1px;
+  height: 1.2rem;
+  background: var(--border);
+  flex-shrink: 0;
+}
+.filter-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: .35rem .75rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: .78rem;
+  font-family: inherit;
+  font-weight: 500;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.filter-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.filter-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ── Main grid ── */
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+/* ── Event card ── */
+.event-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--card-shadow);
+  transition: transform .2s, box-shadow .2s;
+}
+.event-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+.event-card.hidden { display: none; }
+
+/* ── Card image ── */
+.card-img-wrap {
+  position: relative;
+  height: 185px;
+  overflow: hidden;
+  background: var(--surface2);
+  flex-shrink: 0;
+}
+.card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .35s;
+}
+.event-card:hover .card-img-wrap img { transform: scale(1.04); }
+.no-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  color: var(--text-muted);
+  font-size: .78rem;
+  background: repeating-linear-gradient(
+    45deg, var(--surface2), var(--surface2) 10px, var(--surface) 10px, var(--surface) 20px);
+}
+.card-badges {
+  position: absolute;
+  top: .6rem;
+  left: .6rem;
+  right: .6rem;
+  display: flex;
+  gap: .4rem;
+  flex-wrap: wrap;
+}
+
+/* ── Badges ── */
+.badge-type, .badge-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  padding: .2rem .55rem;
+  border-radius: 4px;
+  font-size: .67rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: #fff;
+  backdrop-filter: blur(6px);
+}
+.badge-type.staatlich { background: rgba(29,78,216,.85); }
+.badge-type.privat    { background: rgba(180,83,9,.85); }
+.badge-cat            { font-size: .7rem; text-transform: none; letter-spacing: 0; }
+
+/* ── Card body ── */
+.card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  flex: 1;
+}
+.card-title {
+  font-size: .92rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.card-title a {
+  color: var(--text);
+  text-decoration: none;
+  transition: color .15s;
+}
+.card-title a:hover { color: var(--accent); }
+
+/* ── Meta ── */
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+.meta-item {
+  display: flex;
+  align-items: flex-start;
+  gap: .4rem;
+  font-size: .78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.meta-icon { flex-shrink: 0; font-size: .85rem; margin-top: .05rem; }
+
+/* ── Price ── */
+.card-price {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  align-items: center;
+  margin-top: auto;
+  padding-top: .4rem;
+  border-top: 1px solid var(--border);
+}
+.price-amount {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.price-unknown { font-size: .78rem; color: var(--text-muted); font-style: italic; }
+.badge-special {
+  display: inline-block;
+  padding: .15rem .45rem;
+  border-radius: 4px;
+  font-size: .68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.badge-special.free    { background: #14532d; color: #86efac; }
+html.light .badge-special.free { background: #dcfce7; color: #166534; }
+.badge-special.senior  { background: #1e3a5f; color: #93c5fd; }
+html.light .badge-special.senior { background: #dbeafe; color: #1e40af; }
+.badge-special.citizen { background: #4a1d96; color: #c4b5fd; }
+html.light .badge-special.citizen { background: #ede9fe; color: #6d28d9; }
+
+/* ── Card actions ── */
+.card-actions {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.btn-link {
+  flex: 1;
+  text-align: center;
+  padding: .45rem .75rem;
+  border-radius: 7px;
+  background: var(--accent);
+  color: #fff;
+  font-size: .78rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .15s;
+  white-space: nowrap;
+}
+.btn-link:hover { background: var(--accent-h); }
+.btn-cal {
+  padding: .45rem .75rem;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: .78rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+  white-space: nowrap;
+}
+.btn-cal:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── No events state ── */
+.no-events {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+  font-size: .95rem;
+  line-height: 1.8;
+}
+
+/* ── Count bar ── */
+.count-bar {
+  max-width: 1400px;
+  margin: 0 auto 1rem;
+  padding: 0 1.5rem;
+  font-size: .8rem;
+  color: var(--text-muted);
+}
+#visible-count { font-weight: 600; color: var(--text); }
+
+/* ── Footer ── */
+footer {
+  max-width: 1400px;
+  margin: 2rem auto 0;
+  padding: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: .75rem;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .events-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  main { padding: 1rem; }
+  .filters-inner { padding: .6rem 1rem; }
+  .stats-bar { padding: .4rem 1rem; }
+}
+@media (max-width: 600px) {
+  .header-inner { padding: .75rem 1rem; }
+  .header-logo h1 { font-size: 1rem; }
+  .events-grid { grid-template-columns: 1fr; gap: .75rem; }
+  main { padding: .75rem; }
+  .filters-inner { gap: .4rem; padding: .5rem .75rem; }
+  .filter-btn { padding: .3rem .6rem; font-size: .73rem; }
+  .card-img-wrap { height: 160px; }
+  .stats-bar { display: none; }
+  .filters-wrap { top: 64px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-logo">
+      <span class="city-icon">🏰</span>
+      <div>
+        <h1><span class="de">Veranstaltungen in Erfurt</span><span class="en">Events in Erfurt</span></h1>
+        <div class="subtitle">
+          <span class="de">Ihr Veranstaltungskalender für die Landeshauptstadt Thüringens</span>
+          <span class="en">Your event calendar for the capital of Thuringia</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <button class="btn-ctrl" id="lang-btn" onclick="toggleLang()">EN</button>
+      <button class="btn-ctrl" id="theme-btn" onclick="toggleTheme()">☀️</button>
+    </div>
+  </div>
+  <div class="stats-bar">
+    <span>📅 <span class="de">Stand</span><span class="en">Updated</span>: 16.03.2026</span>
+    <span>📋 <span id="stat-total">16</span> <span class="de">Veranstaltungen</span><span class="en">Events</span></span>
+    <span>🏛️ 5 <span class="de">Quellen</span><span class="en">Sources</span></span>
+  </div>
+</header>
+
+<div class="filters-wrap">
+  <div class="filters-inner">
+    <span class="filter-label de">Kategorie</span>
+    <span class="filter-label en">Category</span>
+        <button class="filter-btn active" data-cat="all" onclick="filterCat(this)">
+      <span class="de">Alle</span><span class="en">All</span>
+    </button>
+    <button class="filter-btn" data-cat="Konzerte" onclick="filterCat(this)">
+      🎵 <span class="de">Konzerte</span><span class="en">Concerts</span>
+    </button>
+    <button class="filter-btn" data-cat="Sport" onclick="filterCat(this)">
+      ⚽ <span class="de">Sport</span><span class="en">Sports</span>
+    </button>
+    <button class="filter-btn" data-cat="Kultur" onclick="filterCat(this)">
+      🎭 <span class="de">Kultur</span><span class="en">Culture</span>
+    </button>
+    <button class="filter-btn" data-cat="Politik" onclick="filterCat(this)">
+      🏛️ <span class="de">Politik</span><span class="en">Politics</span>
+    </button>
+    <button class="filter-btn" data-cat="Märkte" onclick="filterCat(this)">
+      🛒 <span class="de">Märkte</span><span class="en">Markets</span>
+    </button>
+    <button class="filter-btn" data-cat="Sozialprogramme" onclick="filterCat(this)">
+      🤝 <span class="de">Sozialprogramme</span><span class="en">Social Programs</span>
+    </button>
+    <div class="filter-divider"></div>
+    <button class="filter-btn active" data-type="all" onclick="filterType(this)">
+      <span class="de">Alle Träger</span><span class="en">All Organizers</span>
+    </button>
+    <button class="filter-btn" data-type="staatlich" onclick="filterType(this)">
+      🏛️ <span class="de">Staatlich</span><span class="en">Government</span>
+    </button>
+    <button class="filter-btn" data-type="privat" onclick="filterType(this)">
+      🏢 <span class="de">Privat</span><span class="en">Private</span>
+    </button>
+  </div>
+</div>
+
+<main>
+  <div class="count-bar">
+    <span id="visible-count">16</span>
+    <span class="de">Veranstaltungen angezeigt</span>
+    <span class="en">events shown</span>
+  </div>
+  <div class="events-grid" id="events-grid">
+
+  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+    <div class="card-img-wrap">
+      <img src="index_files/Die_Hauptseite_zu_Veranstaltungen_a_17991e.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/service/barrierefreiheit/leichte-sprache/index.html" target="_blank" rel="noopener">Die Hauptseite zu Veranstaltungen aller Art in Erfurt. Suchen Sie im Veranstaltungskalender oder lassen Sie sich von unseren redaktionell gepflegten Veranstaltungsseiten leiten.</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>30.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erleben und Verweilen</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/service/barrierefreiheit/leichte-sprache/index.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Die Hauptseite zu Veranstaltungen aller Art in Erfurt. Suchen Sie im Veranstaltungskalender oder lassen Sie sich von unseren redaktionell gepflegten Veranstaltungsseiten leiten.','30.03.2026','Erleben und Verweilen','','https://www.erfurt.de/ef/de/service/barrierefreiheit/leichte-sprache/index.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+    <div class="card-img-wrap">
+      <img src="index_files/Veranstaltungskalender_a6f0d3.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt-tourismus.de/veranstaltungskalender" target="_blank" rel="noopener">Veranstaltungskalender</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>30.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt-tourismus.de/veranstaltungskalender" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Veranstaltungskalender','30.03.2026','Erfurt','','https://www.erfurt-tourismus.de/veranstaltungskalender')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+    <div class="card-img-wrap">
+      <img src="index_files/Brettspiele_für_alle_30ca7e.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2025/141805.html" target="_blank" rel="noopener">Brettspiele für alle</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>30.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2025/141805.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Brettspiele für alle','30.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2025/141805.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+    <div class="card-img-wrap">
+      <img src="index_files/Menschheitsverbrechen_und_Berufsall_e82c73.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2025/ts_153188.html" target="_blank" rel="noopener">Menschheitsverbrechen und Berufsalltag – Topf &amp; Söhne und die Geschäftsbeziehungen zur SS</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>29.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2025/ts_153188.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Menschheitsverbrechen und Berufsalltag – Topf & Söhne und die Geschäftsbeziehungen zur SS','29.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2025/ts_153188.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+    <div class="card-img-wrap">
+      <img src="index_files/Samstagstreff_im_Leseland_1861c6.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/143796.html" target="_blank" rel="noopener">Samstagstreff im Leseland</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>28.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/143796.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Samstagstreff im Leseland','28.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/143796.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+    <div class="card-img-wrap">
+      <img src="index_files/Erfurter_Altstadtfrühling_4c91d6.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/feste/115867.html" target="_blank" rel="noopener">Erfurter Altstadtfrühling</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>28.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/feste/115867.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Erfurter Altstadtfrühling','28.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/feste/115867.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich">
+    <div class="card-img-wrap">
+      <img src="index_files/Saisonstart_2026_am_Bartholomäustur_19615e.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153536.html" target="_blank" rel="noopener">Saisonstart 2026 am Bartholomäusturm: Carillon-Konzert mit Eddy Mariën aus Belgien</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>28.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153536.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Saisonstart 2026 am Bartholomäusturm: Carillon-Konzert mit Eddy Mariën aus Belgien','28.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153536.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich">
+    <div class="card-img-wrap">
+      <img src="index_files/Vernissage__Dem_Himmel_so_nah__Wolk_7401ba.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/km_153464.html" target="_blank" rel="noopener">Vernissage „Dem Himmel so nah. Wolken in der Kunst“</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>28.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/km_153464.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Vernissage „Dem Himmel so nah. Wolken in der Kunst“','28.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/km_153464.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+    <div class="card-img-wrap">
+      <img src="index_files/Seelisch_fit_in_Erfurt_2026__Verans_ded1c2.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/149742.html" target="_blank" rel="noopener">Seelisch fit in Erfurt 2026 (Veranstaltungen in der Bibliothek)</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>28.01.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/149742.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Seelisch fit in Erfurt 2026 (Veranstaltungen in der Bibliothek)','28.01.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/149742.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sonstige" data-type="staatlich">
+    <div class="card-img-wrap">
+      <img src="index_files/Batik_Eggs__Besondere_Zierde_für_de_8c84c5.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/vm_153412.html" target="_blank" rel="noopener">Batik-Eggs: Besondere Zierde für den Osterstrauß – mit Christine Kausch</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>27.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/vm_153412.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Batik-Eggs: Besondere Zierde für den Osterstrauß – mit Christine Kausch','27.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/vm_153412.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich">
+    <div class="card-img-wrap">
+      <div class="no-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span class="de">Kein Bild</span><span class="en">No Image</span></div>
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153650.html" target="_blank" rel="noopener">Spring on Strings | Frühlingskonzert mit Mandoline und Gitarre</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>27.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153650.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Spring on Strings | Frühlingskonzert mit Mandoline und Gitarre','27.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153650.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich">
+    <div class="card-img-wrap">
+      <img src="index_files/1__Frühlingskonzert_Erfurter_Chöre_2a1f6d.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153478.html" target="_blank" rel="noopener">1. Frühlingskonzert Erfurter Chöre</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>27.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153478.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('1. Frühlingskonzert Erfurter Chöre','27.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153478.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sozialprogramme" data-type="privat">
+    <div class="card-img-wrap">
+      <img src="index_files/Café_irgendwie_anders_fc0309.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type privat"><span class="de">Privat</span><span class="en">Private</span></span>
+        <span class="badge-cat" style="background:#db2777">🤝 <span class="de">Sozialprogramme</span><span class="en">Social Programs</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.frauenzentrum-erfurt.de/" target="_blank" rel="noopener">Café irgendwie anders</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>17.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Frauenzentrum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Frauenzentrum Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Kostenlos</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.frauenzentrum-erfurt.de/" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Café irgendwie anders','17.03.2026','Frauenzentrum Erfurt','Das Frauenzentrum Erfurt ist ein Ort des Austausches und der Gemeinschaft für Frauen aller Altersgruppen, die in den vielfältigsten Situationen und Formen leben.','https://www.frauenzentrum-erfurt.de/')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sozialprogramme" data-type="privat">
+    <div class="card-img-wrap">
+      <img src="index_files/Café_Creme_1c68d7.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type privat"><span class="de">Privat</span><span class="en">Private</span></span>
+        <span class="badge-cat" style="background:#db2777">🤝 <span class="de">Sozialprogramme</span><span class="en">Social Programs</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/cafe-creme-22/" target="_blank" rel="noopener">Café Creme</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>19.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Frauenzentrum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Frauenzentrum Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Kostenlos</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/cafe-creme-22/" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Café Creme','19.03.2026','Frauenzentrum Erfurt','19.03.2026 - 15:00 Uhr','https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/cafe-creme-22/')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sozialprogramme" data-type="privat">
+    <div class="card-img-wrap">
+      <img src="index_files/Bewerbungsunterlagen__die_überzeuge_32c513.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type privat"><span class="de">Privat</span><span class="en">Private</span></span>
+        <span class="badge-cat" style="background:#db2777">🤝 <span class="de">Sozialprogramme</span><span class="en">Social Programs</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/bewerbungsunterlagen-die-ueberzeugen/" target="_blank" rel="noopener">Bewerbungsunterlagen, die überzeugen</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>23.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Frauenzentrum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Frauenzentrum Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Kostenlos</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/bewerbungsunterlagen-die-ueberzeugen/" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Bewerbungsunterlagen, die überzeugen','23.03.2026','Frauenzentrum Erfurt','23.03.2026 - 16:30 Uhr','https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/bewerbungsunterlagen-die-ueberzeugen/')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sozialprogramme" data-type="privat">
+    <div class="card-img-wrap">
+      <img src="index_files/Triff_die_Gleichstellungsbeauftragt_99dd74.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type privat"><span class="de">Privat</span><span class="en">Private</span></span>
+        <span class="badge-cat" style="background:#db2777">🤝 <span class="de">Sozialprogramme</span><span class="en">Social Programs</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/triff-die-gleichstellungsbeauftragte-7/" target="_blank" rel="noopener">Triff die Gleichstellungsbeauftragte!</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>24.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Frauenzentrum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Frauenzentrum Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Kostenlos</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/triff-die-gleichstellungsbeauftragte-7/" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Triff die Gleichstellungsbeauftragte!','24.03.2026','Frauenzentrum Erfurt','24.03.2026 - 16:00 Uhr','https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/triff-die-gleichstellungsbeauftragte-7/')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  </div>
+</main>
+
+<footer>
+  <div>
+    <span class="de">Quellen:</span><span class="en">Sources:</span>
+    <a href="https://www.erfurt.de/veranstaltungen" target="_blank">Stadt Erfurt</a> ·
+    <a href="https://www.frauenzentrum-erfurt.de" target="_blank">Frauenzentrum</a> ·
+    <a href="https://www.theater-erfurt.de" target="_blank">Theater Erfurt</a> ·
+    <a href="https://angermuseum.de" target="_blank">Anger Museum</a> ·
+    <a href="https://www.egapark-erfurt.de" target="_blank">EGA Park</a>
+  </div>
+  <div><span class="de">Generiert am</span><span class="en">Generated on</span> 16.03.2026</div>
+</footer>
+
+<script>
+// ── Language toggle ──────────────────────────────────────────────────────────
+let currentLang = 'de';
+function toggleLang() {
+  currentLang = currentLang === 'de' ? 'en' : 'de';
+  document.documentElement.lang = currentLang;
+  document.getElementById('lang-btn').textContent = currentLang === 'de' ? 'EN' : 'DE';
+  localStorage.setItem('erfurt-lang', currentLang);
+}
+
+// ── Theme toggle ─────────────────────────────────────────────────────────────
+let isDark = true;
+function toggleTheme() {
+  isDark = !isDark;
+  document.documentElement.classList.toggle('dark', isDark);
+  document.documentElement.classList.toggle('light', !isDark);
+  document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+  localStorage.setItem('erfurt-theme', isDark ? 'dark' : 'light');
+}
+
+// ── Filters ──────────────────────────────────────────────────────────────────
+let activeCat  = 'all';
+let activeType = 'all';
+
+function filterCat(btn) {
+  document.querySelectorAll('[data-cat]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeCat = btn.dataset.cat;
+  applyFilters();
+}
+
+function filterType(btn) {
+  document.querySelectorAll('[data-type]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeType = btn.dataset.type;
+  applyFilters();
+}
+
+function applyFilters() {
+  let count = 0;
+  document.querySelectorAll('.event-card').forEach(card => {
+    const catOk  = activeCat  === 'all' || card.dataset.category === activeCat;
+    const typeOk = activeType === 'all' || card.dataset.type     === activeType;
+    const show   = catOk && typeOk;
+    card.classList.toggle('hidden', !show);
+    if (show) count++;
+  });
+  document.getElementById('visible-count').textContent = count;
+}
+
+// ── Add to Calendar (.ics download) ──────────────────────────────────────────
+function addToCalendar(title, dateStr, location, description, url) {
+  // Parse German date dd.mm.yyyy or dd.mm.yy or dd.mm.
+  let dtStart = '', dtEnd = '';
+  const m = dateStr.match(/(\d{1,2})\.(\s*)(\d{1,2})\.(\s*)(\d{2,4})?/);
+  if (m) {
+    const day  = m[1].padStart(2, '0');
+    const mon  = m[3].padStart(2, '0');
+    let yr     = m[5] || new Date().getFullYear().toString();
+    if (yr.length === 2) yr = '20' + yr;
+    dtStart = yr + mon + day + 'T100000';
+    dtEnd   = yr + mon + day + 'T120000';
+  } else {
+    const now = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    dtStart = now.getFullYear()+pad(now.getMonth()+1)+pad(now.getDate())+'T100000';
+    dtEnd   = dtStart.replace('T100000','T120000');
+  }
+
+  // Check for time in dateStr  hh:mm
+  const tm = dateStr.match(/(\d{1,2}):(\d{2})/);
+  if (tm && m) {
+    const yr  = dtStart.substring(0,4);
+    const mon = dtStart.substring(4,6);
+    const day = dtStart.substring(6,8);
+    const hh  = tm[1].padStart(2,'0');
+    const mm  = tm[2];
+    dtStart   = yr+mon+day+'T'+hh+mm+'00';
+    // end: +2h
+    const endH = String(parseInt(hh)+2).padStart(2,'0');
+    dtEnd     = yr+mon+day+'T'+endH+mm+'00';
+  }
+
+  const safe = s => (s||'').replace(/[\n\r]/g,' ').replace(/;/g,'\;').replace(/,/g,'\,');
+  const uid  = 'erfurt-' + Date.now() + '@events.erfurt.de';
+
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Erfurt Events//DE',
+    'CALSCALE:GREGORIAN',
+    'BEGIN:VEVENT',
+    'UID:' + uid,
+    'DTSTAMP:' + new Date().toISOString().replace(/[-:.]/g,'').slice(0,15) + 'Z',
+    'DTSTART:' + dtStart,
+    'DTEND:'   + dtEnd,
+    'SUMMARY:' + safe(title),
+    'LOCATION:' + safe(location),
+    'DESCRIPTION:' + safe(description) + (url ? '\n\nMehr: ' + url : ''),
+    'URL:' + (url||''),
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+
+  const blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = (title.replace(/[^\w\s-]/g,'').trim().replace(/\s+/g,'_').slice(0,40) || 'event') + '.ics';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+}
+
+// ── Init from localStorage ────────────────────────────────────────────────────
+(function() {
+  const savedLang  = localStorage.getItem('erfurt-lang');
+  const savedTheme = localStorage.getItem('erfurt-theme');
+  if (savedLang && savedLang !== 'de') toggleLang();
+  if (savedTheme === 'light') toggleTheme();
+})();
+</script>
+</body>
+</html>
