@@ -1,0 +1,2350 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Erfurt Veranstaltungen / Events</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-family: 'Inter', sans-serif; font-size: 15px; scroll-behavior: smooth; }
+
+/* ── CSS Variables ── */
+html.dark {
+  --bg:       #1a0a0d;
+  --surface:  #2a1218;
+  --surface2: #351820;
+  --border:   #4d2028;
+  --text:     #f0e8e9;
+  --text-muted: #c4909a;
+  --accent:   #c0172c;
+  --accent-h: #96101f;
+  --header-bg:#0d0507;
+  --badge-gov:#1d4ed8;
+  --badge-prv:#92400e;
+  --shadow:   0 4px 20px rgba(0,0,0,.45);
+  --card-shadow: 0 2px 12px rgba(0,0,0,.35);
+}
+html.light {
+  --bg:       #fdf5f5;
+  --surface:  #ffffff;
+  --surface2: #fef0f0;
+  --border:   #f0d0d4;
+  --text:     #1a0508;
+  --text-muted: #7a4048;
+  --accent:   #c0172c;
+  --accent-h: #96101f;
+  --header-bg:#8b0016;
+  --badge-gov:#1d4ed8;
+  --badge-prv:#b45309;
+  --shadow:   0 4px 20px rgba(0,0,0,.10);
+  --card-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+/* ── Language ── */
+html[lang="de"] .en { display: none; }
+html[lang="en"] .de { display: none; }
+
+/* ── Body ── */
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* ── Header ── */
+header {
+  background: var(--header-bg);
+  border-bottom: 2px solid var(--accent);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex: 1 1 auto;
+}
+.header-logo .city-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+.header-logo h1 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+.header-logo .subtitle {
+  font-size: .75rem;
+  color: #94a3b8;
+  margin-top: .1rem;
+}
+.header-controls {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}
+.btn-ctrl {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  color: #fff;
+  padding: .4rem .8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: .8rem;
+  font-weight: 500;
+  font-family: inherit;
+  transition: background .15s;
+  white-space: nowrap;
+}
+.btn-ctrl:hover { background: rgba(255,255,255,.2); }
+.btn-ctrl.active { background: var(--accent); border-color: var(--accent); }
+
+/* ── Stats bar ── */
+.stats-bar {
+  background: rgba(0,0,0,.2);
+  padding: .4rem 1.5rem;
+  font-size: .75rem;
+  color: #94a3b8;
+  display: flex;
+  gap: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+.stats-bar span { display: flex; align-items: center; gap: .3rem; }
+
+/* ── Filters ── */
+.filters-wrap {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 72px;
+  z-index: 90;
+}
+.filters-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: .5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+.filter-row {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-label {
+  font-size: .7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  white-space: nowrap;
+  padding-right: .25rem;
+}
+.filter-divider {
+  width: 1px;
+  height: 1.2rem;
+  background: var(--border);
+  flex-shrink: 0;
+}
+.filter-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: .35rem .75rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: .78rem;
+  font-family: inherit;
+  font-weight: 500;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.filter-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.filter-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ── Main grid ── */
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+/* ── Event card ── */
+.event-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--card-shadow);
+  transition: transform .2s, box-shadow .2s;
+}
+.event-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+.event-card.hidden { display: none; }
+
+/* ── Card image ── */
+.card-img-wrap {
+  position: relative;
+  height: 185px;
+  overflow: hidden;
+  background: var(--surface2);
+  flex-shrink: 0;
+}
+.card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .35s;
+}
+.event-card:hover .card-img-wrap img { transform: scale(1.04); }
+.no-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  color: var(--text-muted);
+  font-size: .78rem;
+  background: repeating-linear-gradient(
+    45deg, var(--surface2), var(--surface2) 10px, var(--surface) 10px, var(--surface) 20px);
+}
+.card-badges {
+  position: absolute;
+  top: .6rem;
+  left: .6rem;
+  right: .6rem;
+  display: flex;
+  gap: .4rem;
+  flex-wrap: wrap;
+}
+
+/* ── Badges ── */
+.badge-type, .badge-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  padding: .2rem .55rem;
+  border-radius: 4px;
+  font-size: .67rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: #fff;
+  backdrop-filter: blur(6px);
+}
+.badge-type.staatlich { background: rgba(29,78,216,.85); }
+.badge-type.privat    { background: rgba(180,83,9,.85); }
+.badge-cat            { font-size: .7rem; text-transform: none; letter-spacing: 0; }
+
+/* ── Card body ── */
+.card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  flex: 1;
+}
+.card-title {
+  font-size: .92rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.card-title a {
+  color: var(--text);
+  text-decoration: none;
+  transition: color .15s;
+}
+.card-title a:hover { color: var(--accent); }
+
+/* ── Meta ── */
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+.meta-item {
+  display: flex;
+  align-items: flex-start;
+  gap: .4rem;
+  font-size: .78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.meta-icon { flex-shrink: 0; font-size: .85rem; margin-top: .05rem; }
+
+/* ── Price ── */
+.card-price {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  align-items: center;
+  margin-top: auto;
+  padding-top: .4rem;
+  border-top: 1px solid var(--border);
+}
+.price-amount {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.price-unknown { font-size: .78rem; color: var(--text-muted); font-style: italic; }
+.badge-special {
+  display: inline-block;
+  padding: .15rem .45rem;
+  border-radius: 4px;
+  font-size: .68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.badge-special.free    { background: #14532d; color: #86efac; }
+html.light .badge-special.free { background: #dcfce7; color: #166534; }
+.badge-special.senior  { background: #1e3a5f; color: #93c5fd; }
+html.light .badge-special.senior { background: #dbeafe; color: #1e40af; }
+.badge-special.citizen { background: #4a1d96; color: #c4b5fd; }
+html.light .badge-special.citizen { background: #ede9fe; color: #6d28d9; }
+
+/* ── Card actions ── */
+.card-actions {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.btn-link {
+  flex: 1;
+  text-align: center;
+  padding: .45rem .75rem;
+  border-radius: 7px;
+  background: var(--accent);
+  color: #fff;
+  font-size: .78rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .15s;
+  white-space: nowrap;
+}
+.btn-link:hover { background: var(--accent-h); }
+.btn-cal {
+  padding: .45rem .75rem;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: .78rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+  white-space: nowrap;
+}
+.btn-cal:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── No events state ── */
+.no-events {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+  font-size: .95rem;
+  line-height: 1.8;
+}
+
+/* ── Count bar ── */
+.count-bar {
+  max-width: 1400px;
+  margin: 0 auto 1rem;
+  padding: 0 1.5rem;
+  font-size: .8rem;
+  color: var(--text-muted);
+}
+#visible-count { font-weight: 600; color: var(--text); }
+
+/* ── Footer ── */
+footer {
+  max-width: 1400px;
+  margin: 2rem auto 0;
+  padding: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: .75rem;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .events-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  main { padding: 1rem; }
+  .filters-inner { padding: .6rem 1rem; }
+  .stats-bar { padding: .4rem 1rem; }
+}
+@media (max-width: 600px) {
+  .header-inner { padding: .75rem 1rem; }
+  .header-logo h1 { font-size: 1rem; }
+  .events-grid { grid-template-columns: 1fr; gap: .75rem; }
+  main { padding: .75rem; }
+  .filters-inner { gap: .4rem; padding: .5rem .75rem; }
+  .filter-btn { padding: .3rem .6rem; font-size: .73rem; }
+  .card-img-wrap { height: 160px; }
+  .stats-bar { display: none; }
+  .filters-wrap { top: 64px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-logo">
+      <span class="city-icon">🏰</span>
+      <div>
+        <h1><span class="de">Veranstaltungen in Erfurt</span><span class="en">Events in Erfurt</span></h1>
+        <div class="subtitle">
+          <span class="de">Ihr Veranstaltungskalender für die Landeshauptstadt Thüringens</span>
+          <span class="en">Your event calendar for the capital of Thuringia</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <button class="btn-ctrl" id="lang-btn" onclick="toggleLang()">EN</button>
+      <button class="btn-ctrl" id="theme-btn" onclick="toggleTheme()">☀️</button>
+    </div>
+  </div>
+  <div class="stats-bar">
+    <span>📅 <span class="de">Stand</span><span class="en">Updated</span>: 16.03.2026</span>
+    <span>📋 <span id="stat-total">56</span> <span class="de">Veranstaltungen</span><span class="en">Events</span></span>
+    <span>🏛️ 5 <span class="de">Quellen</span><span class="en">Sources</span></span>
+  </div>
+</header>
+
+<div class="filters-wrap">
+  <div class="filters-inner">
+    <!-- Row 1: Category -->
+    <div class="filter-row">
+      <span class="filter-label de">Kategorie</span>
+      <span class="filter-label en">Category</span>
+          <button class="filter-btn active" data-cat="all" onclick="filterCat(this)">
+      <span class="de">Alle</span><span class="en">All</span>
+    </button>
+    <button class="filter-btn" data-cat="Konzerte" onclick="filterCat(this)">
+      🎵 <span class="de">Konzerte</span><span class="en">Concerts</span>
+    </button>
+    <button class="filter-btn" data-cat="Sport" onclick="filterCat(this)">
+      ⚽ <span class="de">Sport</span><span class="en">Sports</span>
+    </button>
+    <button class="filter-btn" data-cat="Kultur" onclick="filterCat(this)">
+      🎭 <span class="de">Kultur</span><span class="en">Culture</span>
+    </button>
+    <button class="filter-btn" data-cat="Politik" onclick="filterCat(this)">
+      🏛️ <span class="de">Politik</span><span class="en">Politics</span>
+    </button>
+    <button class="filter-btn" data-cat="Märkte" onclick="filterCat(this)">
+      🛒 <span class="de">Märkte</span><span class="en">Markets</span>
+    </button>
+    <button class="filter-btn" data-cat="Sozialprogramme" onclick="filterCat(this)">
+      🤝 <span class="de">Sozialprogramme</span><span class="en">Social Programs</span>
+    </button>
+    </div>
+    <!-- Row 2: Date range -->
+    <div class="filter-row">
+      <span class="filter-label de">Zeitraum</span>
+      <span class="filter-label en">Period</span>
+      <button class="filter-btn active" data-date="all" onclick="filterDate(this)">
+        <span class="de">Alle</span><span class="en">All</span>
+      </button>
+      <button class="filter-btn" data-date="today" onclick="filterDate(this)">
+        <span class="de">Heute</span><span class="en">Today</span>
+      </button>
+      <button class="filter-btn" data-date="week" onclick="filterDate(this)">
+        <span class="de">Diese Woche</span><span class="en">This Week</span>
+      </button>
+      <button class="filter-btn" data-date="month" onclick="filterDate(this)">
+        <span class="de">Diesen Monat</span><span class="en">This Month</span>
+      </button>
+    </div>
+    <!-- Row 3: Organizer type + Source -->
+    <div class="filter-row">
+      <span class="filter-label de">Träger</span>
+      <span class="filter-label en">Organizer</span>
+      <button class="filter-btn active" data-type="all" onclick="filterType(this)">
+        <span class="de">Alle</span><span class="en">All</span>
+      </button>
+      <button class="filter-btn" data-type="staatlich" onclick="filterType(this)">
+        🏛️ <span class="de">Staatlich</span><span class="en">Government</span>
+      </button>
+      <button class="filter-btn" data-type="privat" onclick="filterType(this)">
+        🏢 <span class="de">Privat</span><span class="en">Private</span>
+      </button>
+      <div class="filter-divider"></div>
+      <span class="filter-label de">Quelle</span>
+      <span class="filter-label en">Source</span>
+          <button class="filter-btn active" data-src="all" onclick="filterSrc(this)">
+      <span class="de">Alle Quellen</span><span class="en">All Sources</span>
+    </button>
+    <button class="filter-btn" data-src="Anger Museum" onclick="filterSrc(this)">
+      Anger Museum
+    </button>
+    <button class="filter-btn" data-src="EGA Park" onclick="filterSrc(this)">
+      EGA Park
+    </button>
+    <button class="filter-btn" data-src="Frauenzentrum Erfurt" onclick="filterSrc(this)">
+      Frauenzentrum Erfurt
+    </button>
+    <button class="filter-btn" data-src="Programm März" onclick="filterSrc(this)">
+      Programm März
+    </button>
+    <button class="filter-btn" data-src="Stadt Erfurt" onclick="filterSrc(this)">
+      Stadt Erfurt
+    </button>
+    <button class="filter-btn" data-src="Theater Erfurt" onclick="filterSrc(this)">
+      Theater Erfurt
+    </button>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="count-bar">
+    <span id="visible-count">56</span>
+    <span class="de">Veranstaltungen angezeigt</span>
+    <span class="en">events shown</span>
+  </div>
+  <div class="events-grid" id="events-grid">
+
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-03-30" data-source="Stadt Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Die_Hauptseite_zu_Veranstaltungen_a_17991e.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/service/barrierefreiheit/leichte-sprache/index.html" target="_blank" rel="noopener">Die Hauptseite zu Veranstaltungen aller Art in Erfurt. Suchen Sie im Veranstaltungskalender oder lassen Sie sich von unseren redaktionell gepflegten Veranstaltungsseiten leiten.</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>30.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erleben und Verweilen</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/service/barrierefreiheit/leichte-sprache/index.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Die Hauptseite zu Veranstaltungen aller Art in Erfurt. Suchen Sie im Veranstaltungskalender oder lassen Sie sich von unseren redaktionell gepflegten Veranstaltungsseiten leiten.','30.03.2026','Erleben und Verweilen','','https://www.erfurt.de/ef/de/service/barrierefreiheit/leichte-sprache/index.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-03-30" data-source="Stadt Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Veranstaltungskalender_a6f0d3.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt-tourismus.de/veranstaltungskalender" target="_blank" rel="noopener">Veranstaltungskalender</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>30.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt-tourismus.de/veranstaltungskalender" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Veranstaltungskalender','30.03.2026','Erfurt','','https://www.erfurt-tourismus.de/veranstaltungskalender')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-03-30" data-source="Stadt Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Brettspiele_für_alle_30ca7e.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2025/141805.html" target="_blank" rel="noopener">Brettspiele für alle</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>30.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2025/141805.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Brettspiele für alle','30.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2025/141805.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-03-29" data-source="Stadt Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Menschheitsverbrechen_und_Berufsall_e82c73.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2025/ts_153188.html" target="_blank" rel="noopener">Menschheitsverbrechen und Berufsalltag – Topf &amp; Söhne und die Geschäftsbeziehungen zur SS</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>29.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2025/ts_153188.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Menschheitsverbrechen und Berufsalltag – Topf & Söhne und die Geschäftsbeziehungen zur SS','29.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2025/ts_153188.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-03-28" data-source="Stadt Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Samstagstreff_im_Leseland_1861c6.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/143796.html" target="_blank" rel="noopener">Samstagstreff im Leseland</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>28.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/143796.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Samstagstreff im Leseland','28.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/143796.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-03-28" data-source="Stadt Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Erfurter_Altstadtfrühling_4c91d6.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/feste/115867.html" target="_blank" rel="noopener">Erfurter Altstadtfrühling</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>28.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/feste/115867.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Erfurter Altstadtfrühling','28.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/feste/115867.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="2026-03-28" data-source="Stadt Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Saisonstart_2026_am_Bartholomäustur_19615e.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153536.html" target="_blank" rel="noopener">Saisonstart 2026 am Bartholomäusturm: Carillon-Konzert mit Eddy Mariën aus Belgien</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>28.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153536.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Saisonstart 2026 am Bartholomäusturm: Carillon-Konzert mit Eddy Mariën aus Belgien','28.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153536.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2026-03-28" data-source="Stadt Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Vernissage__Dem_Himmel_so_nah__Wolk_7401ba.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/km_153464.html" target="_blank" rel="noopener">Vernissage „Dem Himmel so nah. Wolken in der Kunst“</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>28.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/km_153464.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Vernissage „Dem Himmel so nah. Wolken in der Kunst“','28.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/km_153464.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-01-28" data-source="Stadt Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Seelisch_fit_in_Erfurt_2026__Verans_ded1c2.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/149742.html" target="_blank" rel="noopener">Seelisch fit in Erfurt 2026 (Veranstaltungen in der Bibliothek)</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>28.01.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/149742.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Seelisch fit in Erfurt 2026 (Veranstaltungen in der Bibliothek)','28.01.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/149742.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sonstige" data-type="staatlich" data-date="2026-03-27" data-source="Stadt Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Batik_Eggs__Besondere_Zierde_für_de_8c84c5.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#475569">📅 <span class="de">Sonstige</span><span class="en">Other</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/vm_153412.html" target="_blank" rel="noopener">Batik-Eggs: Besondere Zierde für den Osterstrauß – mit Christine Kausch</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>27.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/vm_153412.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Batik-Eggs: Besondere Zierde für den Osterstrauß – mit Christine Kausch','27.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/vm_153412.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="2026-03-27" data-source="Stadt Erfurt">
+    <div class="card-img-wrap">
+      <div class="no-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span class="de">Kein Bild</span><span class="en">No Image</span></div>
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153650.html" target="_blank" rel="noopener">Spring on Strings | Frühlingskonzert mit Mandoline und Gitarre</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>27.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153650.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Spring on Strings | Frühlingskonzert mit Mandoline und Gitarre','27.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153650.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="2026-03-27" data-source="Stadt Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/1__Frühlingskonzert_Erfurter_Chöre_2a1f6d.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153478.html" target="_blank" rel="noopener">1. Frühlingskonzert Erfurter Chöre</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>27.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Stadt Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Frei</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153478.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('1. Frühlingskonzert Erfurter Chöre','27.03.2026','Erfurt','','https://www.erfurt.de/ef/de/erleben/veranstaltungen/vst/2026/153478.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sozialprogramme" data-type="privat" data-date="2026-03-17" data-source="Frauenzentrum Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Café_irgendwie_anders_fc0309.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type privat"><span class="de">Privat</span><span class="en">Private</span></span>
+        <span class="badge-cat" style="background:#db2777">🤝 <span class="de">Sozialprogramme</span><span class="en">Social Programs</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.frauenzentrum-erfurt.de/" target="_blank" rel="noopener">Café irgendwie anders</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>17.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Frauenzentrum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Frauenzentrum Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Kostenlos</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.frauenzentrum-erfurt.de/" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Café irgendwie anders','17.03.2026','Frauenzentrum Erfurt','Das Frauenzentrum Erfurt ist ein Ort des Austausches und der Gemeinschaft für Frauen aller Altersgruppen, die in den vielfältigsten Situationen und Formen leben.','https://www.frauenzentrum-erfurt.de/')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sozialprogramme" data-type="privat" data-date="2026-03-19" data-source="Frauenzentrum Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Café_Creme_1c68d7.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type privat"><span class="de">Privat</span><span class="en">Private</span></span>
+        <span class="badge-cat" style="background:#db2777">🤝 <span class="de">Sozialprogramme</span><span class="en">Social Programs</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/cafe-creme-22/" target="_blank" rel="noopener">Café Creme</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>19.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Frauenzentrum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Frauenzentrum Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Kostenlos</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/cafe-creme-22/" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Café Creme','19.03.2026','Frauenzentrum Erfurt','19.03.2026 - 15:00 Uhr','https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/cafe-creme-22/')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sozialprogramme" data-type="privat" data-date="2026-03-23" data-source="Frauenzentrum Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Bewerbungsunterlagen__die_überzeuge_32c513.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type privat"><span class="de">Privat</span><span class="en">Private</span></span>
+        <span class="badge-cat" style="background:#db2777">🤝 <span class="de">Sozialprogramme</span><span class="en">Social Programs</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/bewerbungsunterlagen-die-ueberzeugen/" target="_blank" rel="noopener">Bewerbungsunterlagen, die überzeugen</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>23.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Frauenzentrum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Frauenzentrum Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Kostenlos</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/bewerbungsunterlagen-die-ueberzeugen/" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Bewerbungsunterlagen, die überzeugen','23.03.2026','Frauenzentrum Erfurt','23.03.2026 - 16:30 Uhr','https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/bewerbungsunterlagen-die-ueberzeugen/')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sozialprogramme" data-type="privat" data-date="2026-03-24" data-source="Frauenzentrum Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Triff_die_Gleichstellungsbeauftragt_99dd74.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type privat"><span class="de">Privat</span><span class="en">Private</span></span>
+        <span class="badge-cat" style="background:#db2777">🤝 <span class="de">Sozialprogramme</span><span class="en">Social Programs</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/triff-die-gleichstellungsbeauftragte-7/" target="_blank" rel="noopener">Triff die Gleichstellungsbeauftragte!</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>24.03.2026</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Frauenzentrum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Frauenzentrum Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-amount">Kostenlos</span> <span class="badge-special free"><span class="de">Kostenlos</span><span class="en">Free Entry</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/triff-die-gleichstellungsbeauftragte-7/" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Triff die Gleichstellungsbeauftragte!','24.03.2026','Frauenzentrum Erfurt','24.03.2026 - 16:00 Uhr','https://www.frauenzentrum-erfurt.de/termine-fuer-frauen/meldung/triff-die-gleichstellungsbeauftragte-7/')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="" data-source="Theater Erfurt">
+    <div class="card-img-wrap">
+      <img src="index_files/Trailer___Spielzeit_2025_26__UNTERW_46eb54.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.theater-erfurt.de/videos/trailer-spielzeit-2025-26-unterwegs-theater-erfurt" target="_blank" rel="noopener">Trailer | Spielzeit 2025/26 &quot;UNTERWEGS&quot; | Theater Erfurt</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Theater Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Theater Erfurt</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.theater-erfurt.de/videos/trailer-spielzeit-2025-26-unterwegs-theater-erfurt" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Trailer | Spielzeit 2025/26 "UNTERWEGS" | Theater Erfurt','','Theater Erfurt','','https://www.theater-erfurt.de/videos/trailer-spielzeit-2025-26-unterwegs-theater-erfurt')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2026-03-17" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Podiumsgespräch__Zitronenfalter_am__cd5c1b.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/153532.html" target="_blank" rel="noopener">Podiumsgespräch „Zitronenfalter am Hauptbahnhof – Gerhard Altenbourg zum 100. Geburtstag“</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>17.03.2026 18:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/153532.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Podiumsgespräch „Zitronenfalter am Hauptbahnhof – Gerhard Altenbourg zum 100. Geburtstag“','17.03.2026 18:00','Anger Museum Erfurt','Veranstaltung:17.03.2026 18:00 							 								– 17.03.2026 20:00Kategorie: Gemäldegalerie','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/153532.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2026-03-18" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Kostenlose_Kunstpause_am_Mittag_im__ef9b9b.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/141001.html" target="_blank" rel="noopener">Kostenlose Kunstpause am Mittag im Angermuseum Erfurt</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>18.03.2026 13:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/141001.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Kostenlose Kunstpause am Mittag im Angermuseum Erfurt','18.03.2026 13:00','Anger Museum Erfurt','Veranstaltung:18.03.2026 13:00 							 								– 18.03.2026 13:15Kategorie: Angermuseum','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/141001.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2026-03-18" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/In_Bewegung_bleiben___Podiumsdiskus_f77491.png" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/153607.html" target="_blank" rel="noopener">In Bewegung bleiben - Podiumsdiskussion mit Gabriele Stötzer und Monique Förster am „Tag der Demokratiegeschichte“</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>18.03.2026 18:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/153607.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('In Bewegung bleiben - Podiumsdiskussion mit Gabriele Stötzer und Monique Förster am „Tag der Demokratiegeschichte“','18.03.2026 18:00','Anger Museum Erfurt','Veranstaltung:18.03.2026 18:00 							 								– 18.03.2026 20:00Kategorie: Angermuseum','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/153607.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2026-03-28" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Vernissage__Dem_Himmel_so_nah__Wolk_026e1c.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/153464.html" target="_blank" rel="noopener">Vernissage „Dem Himmel so nah. Wolken in der Kunst“</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>28.03.2026 16:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/153464.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Vernissage „Dem Himmel so nah. Wolken in der Kunst“','28.03.2026 16:00','Anger Museum Erfurt','Veranstaltung:28.03.2026 16:00 							 								– 28.03.2026 18:00Kategorie: Zweites OG','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/153464.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2026-04-01" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Tea_Time_with_Barbara___Paintings_a_a44f1d.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2025/152164.html" target="_blank" rel="noopener">Tea Time with Barbara – Paintings and Drawings – Look, describe and discuss</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>01.04.2026 16:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2025/152164.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Tea Time with Barbara – Paintings and Drawings – Look, describe and discuss','01.04.2026 16:00','Anger Museum Erfurt','Veranstaltung:01.04.2026 16:00 							 								– 01.04.2026 17:00Kategorie: Sonderausstellungen','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2025/152164.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2026-04-14" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Kunst_und_Baby___Ausstellungsrundga_6ce4dd.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/153037.html" target="_blank" rel="noopener">Kunst und Baby – Ausstellungsrundgang für Eltern und Menschen mit Babys</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>14.04.2026 11:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/153037.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Kunst und Baby – Ausstellungsrundgang für Eltern und Menschen mit Babys','14.04.2026 11:00','Anger Museum Erfurt','Veranstaltung:14.04.2026 11:00 							 								– 14.04.2026 12:00Kategorie: Angermuseum','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2026/153037.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2023-12-17" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Kuratorenführungen__Vilnius_Vibes___9f4905.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/146004.html" target="_blank" rel="noopener">Kuratorenführungen „Vilnius Vibes. Kunst aus der baltischen Kapitale”</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>17.12.2023 11:00  12:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/146004.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Kuratorenführungen „Vilnius Vibes. Kunst aus der baltischen Kapitale”','17.12.2023 11:00  12:00','Anger Museum Erfurt','Veranstaltung:17.12.2023 11:00  12:00Kategorie: Zweites OG','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/146004.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2023-10-21" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Eröffnung__Vilnius_Vibes__Kunst_aus_9f4905.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145453.html" target="_blank" rel="noopener">Eröffnung „Vilnius Vibes. Kunst aus der baltischen Kapitale”</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>21.10.2023 16:00  18:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145453.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Eröffnung „Vilnius Vibes. Kunst aus der baltischen Kapitale”','21.10.2023 16:00  18:00','Anger Museum Erfurt','Veranstaltung:21.10.2023 16:00  18:00Kategorie: Zweites OG','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145453.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2023-09-24" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Kuratorenführungen__Avantgarde_in_d_22f889.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/144809.html" target="_blank" rel="noopener">Kuratorenführungen „Avantgarde in den Niederlanden. Die expressionistische Künstlergruppe De Ploeg”</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>24.09.2023 11:00  12:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/144809.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Kuratorenführungen „Avantgarde in den Niederlanden. Die expressionistische Künstlergruppe De Ploeg”','24.09.2023 11:00  12:00','Anger Museum Erfurt','Veranstaltung:24.09.2023 11:00  12:00Kategorie: Zweites OG','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/144809.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2023-09-20" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Führungen_durch_die_Ausstellung_des_adea6f.jpeg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145318.html" target="_blank" rel="noopener">Führungen durch die Ausstellung des 19. Erfurter Schmucksymposiums</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>20.09.2023 13:00  13:15</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145318.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Führungen durch die Ausstellung des 19. Erfurter Schmucksymposiums','20.09.2023 13:00  13:15','Anger Museum Erfurt','Veranstaltung:20.09.2023 13:00  13:15Kategorie: Sonderausstellungen','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145318.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2023-08-31" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Führung_mit_Kuratorin_Dr__Petra_Lan_22f889.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/144982.html" target="_blank" rel="noopener">Führung mit Kuratorin Dr. Petra Lanfermann (Städtische Galerie Bietigheim-Bissingen)</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>31.08.2023 18:30  20:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/144982.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Führung mit Kuratorin Dr. Petra Lanfermann (Städtische Galerie Bietigheim-Bissingen)','31.08.2023 18:30  20:00','Anger Museum Erfurt','Veranstaltung:31.08.2023 18:30  20:00Kategorie: Zweites OG','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/144982.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2023-08-26" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Eröffnung_der_Ausstellung_anlässlic_adea6f.jpeg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145317.html" target="_blank" rel="noopener">Eröffnung der Ausstellung anlässlich des 19. Erfurter Schmucksymposiums</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>26.08.2023 18:00  20:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145317.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Eröffnung der Ausstellung anlässlich des 19. Erfurter Schmucksymposiums','26.08.2023 18:00  20:00','Anger Museum Erfurt','Veranstaltung:26.08.2023 18:00  20:00Kategorie: Sonderausstellungen','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145317.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2023-08-26" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Kolloquium_anlässlich_des_19__Erfur_adea6f.jpeg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145319.html" target="_blank" rel="noopener">Kolloquium anlässlich des 19. Erfurter Schmucksymposiums</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>26.08.2023 12:00  15:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145319.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Kolloquium anlässlich des 19. Erfurter Schmucksymposiums','26.08.2023 12:00  15:00','Anger Museum Erfurt','Veranstaltung:26.08.2023 12:00  15:00Kategorie: Sonderausstellungen','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145319.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2023-08-22" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Tag_der_offenen_Tür_beim_19__Erfurt_8d7410.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145316.html" target="_blank" rel="noopener">Tag der offenen Tür beim 19. Erfurter Schmucksymposium</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>22.08.2023 13:00  18:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145316.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Tag der offenen Tür beim 19. Erfurter Schmucksymposium','22.08.2023 13:00  18:00','Anger Museum Erfurt','Veranstaltung:22.08.2023 13:00  18:00Kategorie: Sonderausstellungen','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/145316.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2023-07-01" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Eröffnung__Avantgarde_in_den_Nieder_22f889.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/144689.html" target="_blank" rel="noopener">Eröffnung „Avantgarde in den Niederlanden. Die expressionistische Künstlergruppe De Ploeg”</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>01.07.2023 16:00  18:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/144689.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Eröffnung „Avantgarde in den Niederlanden. Die expressionistische Künstlergruppe De Ploeg”','01.07.2023 16:00  18:00','Anger Museum Erfurt','Veranstaltung:01.07.2023 16:00  18:00Kategorie: Zweites OG','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/144689.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2023-06-15" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Kuratorenführungen_zur_Sonderausste_93c1dc.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/143839.html" target="_blank" rel="noopener">Kuratorenführungen zur Sonderausstellung „Alexander Camaro. Die Welt des Scheins”</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>15.06.2023 16:00  17:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/143839.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Kuratorenführungen zur Sonderausstellung „Alexander Camaro. Die Welt des Scheins”','15.06.2023 16:00  17:00','Anger Museum Erfurt','Veranstaltung:15.06.2023 16:00  17:00Kategorie: Zweites OG','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/143839.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2023-05-25" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Führung_durch_die_Ausstellung__Marc_5dc9e2.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/143842.html" target="_blank" rel="noopener">Führung durch die Ausstellung „Marcel Krummrich – Ein hölzernes Theater. Fotoarbeiten aus dem Ekhof-Theater Gotha“</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>25.05.2023 16:00  17:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/143842.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Führung durch die Ausstellung „Marcel Krummrich – Ein hölzernes Theater. Fotoarbeiten aus dem Ekhof-Theater Gotha“','25.05.2023 16:00  17:00','Anger Museum Erfurt','Veranstaltung:25.05.2023 16:00  17:00Kategorie: Grafikkabinett','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/143842.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2023-05-16" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/_Horizonterweiterung____Podiumsdisk_61c350.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/144439.html" target="_blank" rel="noopener">„Horizonterweiterung“ - Podiumsdiskussion zum Thema „Kultur – Konflikt – Konsens?“</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>16.05.2023 18:00  20:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/144439.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('„Horizonterweiterung“ - Podiumsdiskussion zum Thema „Kultur – Konflikt – Konsens?“','16.05.2023 18:00  20:00','Anger Museum Erfurt','Veranstaltung:16.05.2023 18:00  20:00Kategorie: Angermuseum','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/144439.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2023-05-09" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Kunstgespräch__Alexander_Camaro___W_93c1dc.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/143840.html" target="_blank" rel="noopener">Kunstgespräch „Alexander Camaro – Wiederentdeckung eines künstlerischen Universums“</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>09.05.2023 18:30  20:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/143840.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Kunstgespräch „Alexander Camaro – Wiederentdeckung eines künstlerischen Universums“','09.05.2023 18:30  20:00','Anger Museum Erfurt','Veranstaltung:09.05.2023 18:30  20:00Kategorie: Zweites OG','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/143840.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Kultur" data-type="staatlich" data-date="2023-04-25" data-source="Anger Museum">
+    <div class="card-img-wrap">
+      <img src="index_files/Abendführung__Alexander_Camaro___Di_93c1dc.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#c0392b">🎭 <span class="de">Kultur</span><span class="en">Culture</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/143824.html" target="_blank" rel="noopener">Abendführung „Alexander Camaro – Die Welt als Theater”</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>25.04.2023 18:30  12:00</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Anger Museum Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Anger Museum</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/143824.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Abendführung „Alexander Camaro – Die Welt als Theater”','25.04.2023 18:30  12:00','Anger Museum Erfurt','Veranstaltung:25.04.2023 18:30  12:00Kategorie: Zweites OG','https://kunstmuseen.erfurt.de/km/de/service/aktuelles/veranstaltungen/2023/143824.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/Kurse_im_GartenWerk_558989.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://egapark.ticketfritz.de/Event/Kachel/gartenwerk/27907?wert=Promotion" target="_blank" rel="noopener">Kurse im GartenWerk</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://egapark.ticketfritz.de/Event/Kachel/gartenwerk/27907?wert=Promotion" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Kurse im GartenWerk','','EGA Park Erfurt','','https://egapark.ticketfritz.de/Event/Kachel/gartenwerk/27907?wert=Promotion')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/Ostersonntag_im_egapark_422e88.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/ostersonntag+2026" target="_blank" rel="noopener">Ostersonntag im egapark</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/ostersonntag+2026" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Ostersonntag im egapark','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/ostersonntag+2026')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/du_und_dein_garten_f40dd9.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/dudg+2026" target="_blank" rel="noopener">du und dein garten</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/dudg+2026" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('du und dein garten','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/dudg+2026')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/Blumenschau_825e45.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/65jahre" target="_blank" rel="noopener">Blumenschau</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/65jahre" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Blumenschau','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/65jahre')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/Japanisches_Gartenfest_388406.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#A4BC972C51BF44849B92B2DD74C810D0" target="_blank" rel="noopener">Japanisches Gartenfest</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#A4BC972C51BF44849B92B2DD74C810D0" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Japanisches Gartenfest','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#A4BC972C51BF44849B92B2DD74C810D0')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/ComicPark_9c5c25.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#36725EA747F3DB479B4B3FD1589C028A" target="_blank" rel="noopener">ComicPark</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#36725EA747F3DB479B4B3FD1589C028A" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('ComicPark','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#36725EA747F3DB479B4B3FD1589C028A')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/Familienwochen_2026_bff775.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/familienwochen+2026" target="_blank" rel="noopener">Familienwochen 2026</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/familienwochen+2026" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Familienwochen 2026','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/familienwochen+2026')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/Thüringer_Sportvereinstag_d55196.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#AA252500D5D54AA48A7CF809FA4C49B4" target="_blank" rel="noopener">Thüringer Sportvereinstag</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#AA252500D5D54AA48A7CF809FA4C49B4" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Thüringer Sportvereinstag','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#AA252500D5D54AA48A7CF809FA4C49B4')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/Rosengartenfest_4efb78.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#6DC1E6A9BF0240B595C79703C333444C" target="_blank" rel="noopener">Rosengartenfest</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#6DC1E6A9BF0240B595C79703C333444C" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Rosengartenfest','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#6DC1E6A9BF0240B595C79703C333444C')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/Firmenwandertag_5bc864.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.firmenwandertag.de/erfurt" target="_blank" rel="noopener">Firmenwandertag</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.firmenwandertag.de/erfurt" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Firmenwandertag','','EGA Park Erfurt','','https://www.firmenwandertag.de/erfurt')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/Lichterfest_16256c.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/lichterfest+2026" target="_blank" rel="noopener">Lichterfest</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/lichterfest+2026" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Lichterfest','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/lichterfest+2026')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/35__MDR_Musiksommer_6e1aa8.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.mdr.de/konzerte/konzertkalender/konzert-3300.html" target="_blank" rel="noopener">35. MDR Musiksommer</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.mdr.de/konzerte/konzertkalender/konzert-3300.html" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('35. MDR Musiksommer','','EGA Park Erfurt','','https://www.mdr.de/konzerte/konzertkalender/konzert-3300.html')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/Thüringer_Gartentage_3c21aa.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#33F759600BAA46D5A8AC8A9A57C0C7E0" target="_blank" rel="noopener">Thüringer Gartentage</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#33F759600BAA46D5A8AC8A9A57C0C7E0" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Thüringer Gartentage','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#33F759600BAA46D5A8AC8A9A57C0C7E0')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/Kürbisausstellung_980d80.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/kuerbiszeit+2026" target="_blank" rel="noopener">Kürbisausstellung</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/kuerbiszeit+2026" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Kürbisausstellung','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/kuerbiszeit+2026')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/NaturErlebnisTag_76b89e.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#F4F1F04CA9884865ABAB1BB7B4CA3B9F" target="_blank" rel="noopener">NaturErlebnisTag</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#F4F1F04CA9884865ABAB1BB7B4CA3B9F" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('NaturErlebnisTag','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#F4F1F04CA9884865ABAB1BB7B4CA3B9F')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/KürbisErnteFest_5b30ce.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#34FD1716DBCB472889917BC43094528D" target="_blank" rel="noopener">KürbisErnteFest</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#34FD1716DBCB472889917BC43094528D" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('KürbisErnteFest','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#34FD1716DBCB472889917BC43094528D')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/Zimmerpflanzenbörse_a92bda.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#BDFD85A2CAD241DD9153F7CC1FE66596" target="_blank" rel="noopener">Zimmerpflanzenbörse</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#BDFD85A2CAD241DD9153F7CC1FE66596" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Zimmerpflanzenbörse','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#BDFD85A2CAD241DD9153F7CC1FE66596')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Konzerte" data-type="staatlich" data-date="" data-source="EGA Park">
+    <div class="card-img-wrap">
+      <img src="index_files/Florales_zur_Weihnachtszeit_64d722.jpg" alt="" loading="lazy">
+      <div class="card-badges">
+        <span class="badge-type staatlich"><span class="de">Staatlich</span><span class="en">Government</span></span>
+        <span class="badge-cat" style="background:#7c3aed">🎵 <span class="de">Konzerte</span><span class="en">Concerts</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#0ADE42BF4541499AA370F77A7DEF53EC" target="_blank" rel="noopener">Florales zur Weihnachtszeit</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span><em class="de">Datum unbekannt</em><em class="en">Date unknown</em></span>
+        <span class="meta-item"><span class="meta-icon">📍</span>EGA Park Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>EGA Park</span>
+      </div>
+      <div class="card-price"><span class="price-unknown"><span class="de">Preis auf Anfrage</span><span class="en">Price on request</span></span></div>
+      <div class="card-actions">
+        <a href="https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#0ADE42BF4541499AA370F77A7DEF53EC" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Florales zur Weihnachtszeit','','EGA Park Erfurt','','https://www.egapark-erfurt.de/pb/egapark/Home/veranstaltungen/veranstaltungsdetails#0ADE42BF4541499AA370F77A7DEF53EC')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="event-card" data-category="Sozialprogramme" data-type="privat" data-date="" data-source="Programm März">
+    <div class="card-img-wrap">
+      <div class="no-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span class="de">Kein Bild</span><span class="en">No Image</span></div>
+      <div class="card-badges">
+        <span class="badge-type privat"><span class="de">Privat</span><span class="en">Private</span></span>
+        <span class="badge-cat" style="background:#db2777">🤝 <span class="de">Sozialprogramme</span><span class="en">Social Programs</span></span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <a href="" target="_blank" rel="noopener">Kurse für Frauen Rat und Hilfe</a>
+      </h3>
+      <div class="card-meta">
+        <span class="meta-item"><span class="meta-icon">📅</span>Sport für Seniorinnen* 14.00 - 15.00 Uhr wöchentlich 15.00 - 16.00 Uhr wöchentlich إذا كنو يف وأ لة أم يف وضع صعب، نوة نص مك فب يف اد دل ل ل. Fit und Standfest im Alltag* 16.15 - 17.15 Uhr 31.03. - 16.06. Якщо ви в проблемі або в складній ситуації, ми підтримуємо вас у Anmeldung bis 13.03./17.04., 12.00 Uhr пошуку рішень. Pilates** 15.45 - 16.30 Uhr 25.03. - 27.05. Auf unserer Homepage findest Du eine Zusammenstellung von Anlaufstellen, an die 17.00 - 17.45 Uhr 25.03. - 27.05. Frauensport* 18.00 - 19.00 Uhr wöchentlich DONNERSTAGS Montags, 10.00 - 11.00 Uhr, wöchentlich Anmeldung bis 23.03./27.04., 12.00 Uhr Stressbewältigung** 16.45 - 18.15 Uhr ab 05.03. Yoga* 18.30 - 19.45 Uhr bis 21.04. Nur mit Anmeldung. Dienstags von 15.00-17.00 Uhr Yoga sanft / Beckenboden** 09.30 - 11.00 Uhr bis 27.03. Regelmässige Angebbote Jeden zweiten Mittwoch im Monat, 16.00-18.00 Uhr Montag, 16.00 - 17.00 Uhr, wöchentlich Jeden ersten Mittwoch im Monat, 15.00-16.00 Uhr Dienstag, 10.00-12.00 Uhr, wöchentlich Allgemeine Rechtsberatung, Familienrecht und Arbeitsrecht دیدمآ شوخ - لاهسو لاهأ Mittwoch, 18.30-19.30 Uhr, wöchentlich Terminvereinbarung individuell Deutsch | Donnerstag, 17.00 - 18.00 Uhr, wöchentlich (Bildungswerk der Thüringer Wirtschaft e.V.). Nur mit Anmeldung. www.frauenzentrum-erfurt.de Englisch | jeden zweiten Donnerstag im Monat, 17.00 - 18.00 Uhr Jeden ersten Donnerstag im Monat, 16.00-18.00 Uhr Frauen– und FamilienZentrum Erfurt e. V. Dienstag, 17.03., 16.00 - 17.00 Uhr Dienstag, 31.03., 17.00 - 19.00 Uhr Donnerstag, 05.03., 17.00 - 19.00 Uhr Kuchen sprechen wir dieses Mal über das Thema Frauen mit Behinderung. ist voll, aber Du hast nichts zum Anziehen? Dann tausche stellung und Empowerment aufmerksam zu machen. In Kooperation mit LaFiT e. V.. Kosten 5,-€. Wir bitten um Anmeldung bis 10.03., 12.00 Uhr. sie gegen zehn neue Lieblingsstücke. Kosten: 2,- Mitmacheuro Donnerstag, 19.03./16.04., 15.00 - 16.30 Uhr Spüren. Gestalten. Stärken Bei köstlichem Kaffee und hausgebackener Torte laden wir Dich ein, über Samstag, 11.04., 11.00 - 14.00 Uhr Unser Tipp: Montag, 23.03., 16.30 - 18.00 Uhr Dienstag, 14.04., 16.30 - 17.30 Uhr Vernissage: Samstag, 14.03., ab 18.00 Uhr | Kunsthalle Erfurt schreiben und vollständigen Bewerbungsunterlagen (auch online) wirklich Wir bitten um Anmeldung bis 07.04., 12.00 Uhr. mit einem Infostand vor Ort und freuen uns auf Gespräche mit Dir! Dienstag, 24.03., 16.00 - 18.00 Uhr | 28.04., 14.00 - 17.00 Uhr Donnerstag, 02.04., 17.30 - 19.00 Uhr Dienstag, 24.03., 18.00 - 20.00 Uhr Dienstag, 10.03., ab 19.30 Uhr | Haus Dacheröden all das unseren Alltag beeinflusst. Herz. Ideen, Einsichten und Visionen öffnen sich. on mit der Heinrich-Böll-Stiftung Thüringen e.V. und Kraftwerke-Culture.Equality.Now! Samstag/Sonntag, 25.04./26.04., jeweils 09.00 - 15.00 Uhr Donnerstag, 12.03./09.04. 10.00 - 12.00 Uhr Donnerstag, 26.03./23.04., ab 10.00 Uhr | Treffpunkt: FrauenZentrum Erfurt und deren Mütter, (Paten)-Tanten oder Omas. WenDo ist ein alltags- Donnerstag, 12.03., 16.00 - 18.30 Uhr Dein Frühstück mit Begegnung, Gesprächen und Gedankenaustausch. Powerbini´s Häkelwelt - Tierchen zum Kuscheln und Liebhaben Der Stammtisch richtet sich an Frauen mit Migrationshintergrund, die Starte mit uns gemeinsam in den Tag und knüpfe neue Kontakte! Mittwoch, 29.04., 16.00 - 17.30 Uhr bis 22.04., 12.00 Uhr. | * japanische Strick- und Häkelkunst</span>
+        <span class="meta-item"><span class="meta-icon">📍</span>Erfurt</span>
+        <span class="meta-item"><span class="meta-icon">🏢</span>Programm März</span>
+      </div>
+      <div class="card-price"><span class="price-amount">schluss und mind. B2 Sprachkenntnisse. se sind nicht erforderlich. Material vorhanden. Kosten: 3 €. Wir bitten um Anmeldung</span></div>
+      <div class="card-actions">
+        <a href="" target="_blank" rel="noopener" class="btn-link">
+          <span class="de">Mehr erfahren →</span>
+          <span class="en">Learn more →</span>
+        </a>
+        <button class="btn-cal" onclick="addToCalendar('Kurse für Frauen Rat und Hilfe','Sport für Seniorinnen* 14.00 - 15.00 Uhr wöchentlich 15.00 - 16.00 Uhr wöchentlich إذا كنو يف وأ لة أم يف وضع صعب، نوة نص مك فب يف اد دل ل ل. Fit und Standfest im Alltag* 16.15 - 17.15 Uhr 31.03. - 16.06. Якщо ви в проблемі або в складній ситуації, ми підтримуємо вас у Anmeldung bis 13.03./17.04., 12.00 Uhr пошуку рішень. Pilates** 15.45 - 16.30 Uhr 25.03. - 27.05. Auf unserer Homepage findest Du eine Zusammenstellung von Anlaufstellen, an die 17.00 - 17.45 Uhr 25.03. - 27.05. Frauensport* 18.00 - 19.00 Uhr wöchentlich DONNERSTAGS Montags, 10.00 - 11.00 Uhr, wöchentlich Anmeldung bis 23.03./27.04., 12.00 Uhr Stressbewältigung** 16.45 - 18.15 Uhr ab 05.03. Yoga* 18.30 - 19.45 Uhr bis 21.04. Nur mit Anmeldung. Dienstags von 15.00-17.00 Uhr Yoga sanft / Beckenboden** 09.30 - 11.00 Uhr bis 27.03. Regelmässige Angebbote Jeden zweiten Mittwoch im Monat, 16.00-18.00 Uhr Montag, 16.00 - 17.00 Uhr, wöchentlich Jeden ersten Mittwoch im Monat, 15.00-16.00 Uhr Dienstag, 10.00-12.00 Uhr, wöchentlich Allgemeine Rechtsberatung, Familienrecht und Arbeitsrecht دیدمآ شوخ - لاهسو لاهأ Mittwoch, 18.30-19.30 Uhr, wöchentlich Terminvereinbarung individuell Deutsch | Donnerstag, 17.00 - 18.00 Uhr, wöchentlich (Bildungswerk der Thüringer Wirtschaft e.V.). Nur mit Anmeldung. www.frauenzentrum-erfurt.de Englisch | jeden zweiten Donnerstag im Monat, 17.00 - 18.00 Uhr Jeden ersten Donnerstag im Monat, 16.00-18.00 Uhr Frauen– und FamilienZentrum Erfurt e. V. Dienstag, 17.03., 16.00 - 17.00 Uhr Dienstag, 31.03., 17.00 - 19.00 Uhr Donnerstag, 05.03., 17.00 - 19.00 Uhr Kuchen sprechen wir dieses Mal über das Thema Frauen mit Behinderung. ist voll, aber Du hast nichts zum Anziehen? Dann tausche stellung und Empowerment aufmerksam zu machen. In Kooperation mit LaFiT e. V.. Kosten 5,-€. Wir bitten um Anmeldung bis 10.03., 12.00 Uhr. sie gegen zehn neue Lieblingsstücke. Kosten: 2,- Mitmacheuro Donnerstag, 19.03./16.04., 15.00 - 16.30 Uhr Spüren. Gestalten. Stärken Bei köstlichem Kaffee und hausgebackener Torte laden wir Dich ein, über Samstag, 11.04., 11.00 - 14.00 Uhr Unser Tipp: Montag, 23.03., 16.30 - 18.00 Uhr Dienstag, 14.04., 16.30 - 17.30 Uhr Vernissage: Samstag, 14.03., ab 18.00 Uhr | Kunsthalle Erfurt schreiben und vollständigen Bewerbungsunterlagen (auch online) wirklich Wir bitten um Anmeldung bis 07.04., 12.00 Uhr. mit einem Infostand vor Ort und freuen uns auf Gespräche mit Dir! Dienstag, 24.03., 16.00 - 18.00 Uhr | 28.04., 14.00 - 17.00 Uhr Donnerstag, 02.04., 17.30 - 19.00 Uhr Dienstag, 24.03., 18.00 - 20.00 Uhr Dienstag, 10.03., ab 19.30 Uhr | Haus Dacheröden all das unseren Alltag beeinflusst. Herz. Ideen, Einsichten und Visionen öffnen sich. on mit der Heinrich-Böll-Stiftung Thüringen e.V. und Kraftwerke-Culture.Equality.Now! Samstag/Sonntag, 25.04./26.04., jeweils 09.00 - 15.00 Uhr Donnerstag, 12.03./09.04. 10.00 - 12.00 Uhr Donnerstag, 26.03./23.04., ab 10.00 Uhr | Treffpunkt: FrauenZentrum Erfurt und deren Mütter, (Paten)-Tanten oder Omas. WenDo ist ein alltags- Donnerstag, 12.03., 16.00 - 18.30 Uhr Dein Frühstück mit Begegnung, Gesprächen und Gedankenaustausch. Powerbini´s Häkelwelt - Tierchen zum Kuscheln und Liebhaben Der Stammtisch richtet sich an Frauen mit Migrationshintergrund, die Starte mit uns gemeinsam in den Tag und knüpfe neue Kontakte! Mittwoch, 29.04., 16.00 - 17.30 Uhr bis 22.04., 12.00 Uhr. | * japanische Strick- und Häkelkunst','Erfurt','* Kosten sind bei der Kursleiterin zu erfragen | ** anerkannter Präventionskurs der KK Frauenberatung/ Psychosoziale Beratung Laufender Kurseinstieg ist möglich. Wir bitten um Anmeldung. Montags In sc','')">
+          📅 <span class="de">Kalender</span><span class="en">Calendar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  </div>
+</main>
+
+<footer>
+  <div>
+    <span class="de">Quellen:</span><span class="en">Sources:</span>
+    <a href="https://www.erfurt.de/veranstaltungen" target="_blank">Stadt Erfurt</a> ·
+    <a href="https://www.frauenzentrum-erfurt.de" target="_blank">Frauenzentrum</a> ·
+    <a href="https://www.theater-erfurt.de" target="_blank">Theater Erfurt</a> ·
+    <a href="https://kunstmuseen.erfurt.de/angermuseum" target="_blank">Anger Museum</a> ·
+    <a href="https://www.egapark-erfurt.de" target="_blank">EGA Park</a>
+  </div>
+  <div><span class="de">Generiert am</span><span class="en">Generated on</span> 16.03.2026</div>
+</footer>
+
+<script>
+// ── Language toggle ──────────────────────────────────────────────────────────
+let currentLang = 'de';
+function toggleLang() {
+  currentLang = currentLang === 'de' ? 'en' : 'de';
+  document.documentElement.lang = currentLang;
+  document.getElementById('lang-btn').textContent = currentLang === 'de' ? 'EN' : 'DE';
+  localStorage.setItem('erfurt-lang', currentLang);
+}
+
+// ── Theme toggle ─────────────────────────────────────────────────────────────
+let isDark = true;
+function toggleTheme() {
+  isDark = !isDark;
+  document.documentElement.classList.toggle('dark', isDark);
+  document.documentElement.classList.toggle('light', !isDark);
+  document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+  localStorage.setItem('erfurt-theme', isDark ? 'dark' : 'light');
+}
+
+// ── Filters ──────────────────────────────────────────────────────────────────
+let activeCat  = 'all';
+let activeType = 'all';
+let activeDate = 'all';
+let activeSrc  = 'all';
+
+function filterCat(btn) {
+  document.querySelectorAll('.filter-btn[data-cat]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeCat = btn.dataset.cat;
+  applyFilters();
+}
+
+function filterType(btn) {
+  document.querySelectorAll('.filter-btn[data-type]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeType = btn.dataset.type;
+  applyFilters();
+}
+
+function filterDate(btn) {
+  document.querySelectorAll('.filter-btn[data-date]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeDate = btn.dataset.date;
+  applyFilters();
+}
+
+function filterSrc(btn) {
+  document.querySelectorAll('.filter-btn[data-src]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeSrc = btn.dataset.src;
+  applyFilters();
+}
+
+function applyFilters() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const weekEnd = new Date(today); weekEnd.setDate(today.getDate() + 7);
+  const monthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+  let count = 0;
+  document.querySelectorAll('.event-card').forEach(card => {
+    const catOk  = activeCat  === 'all' || card.dataset.category === activeCat;
+    const typeOk = activeType === 'all' || card.dataset.type     === activeType;
+    const srcOk  = activeSrc  === 'all' || card.dataset.source   === activeSrc;
+
+    let dateOk = true;
+    if (activeDate !== 'all' && card.dataset.date) {
+      const d = new Date(card.dataset.date); d.setHours(0,0,0,0);
+      if (activeDate === 'today') dateOk = d.getTime() === today.getTime();
+      else if (activeDate === 'week')  dateOk = d >= today && d <= weekEnd;
+      else if (activeDate === 'month') dateOk = d >= today && d <= monthEnd;
+    }
+
+    const show = catOk && typeOk && dateOk && srcOk;
+    card.classList.toggle('hidden', !show);
+    if (show) count++;
+  });
+  document.getElementById('visible-count').textContent = count;
+}
+
+// ── Add to Calendar (.ics download) ──────────────────────────────────────────
+function addToCalendar(title, dateStr, location, description, url) {
+  // Parse German date dd.mm.yyyy or dd.mm.yy or dd.mm.
+  let dtStart = '', dtEnd = '';
+  const m = dateStr.match(/(\d{1,2})\.(\s*)(\d{1,2})\.(\s*)(\d{2,4})?/);
+  if (m) {
+    const day  = m[1].padStart(2, '0');
+    const mon  = m[3].padStart(2, '0');
+    let yr     = m[5] || new Date().getFullYear().toString();
+    if (yr.length === 2) yr = '20' + yr;
+    dtStart = yr + mon + day + 'T100000';
+    dtEnd   = yr + mon + day + 'T120000';
+  } else {
+    const now = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    dtStart = now.getFullYear()+pad(now.getMonth()+1)+pad(now.getDate())+'T100000';
+    dtEnd   = dtStart.replace('T100000','T120000');
+  }
+
+  // Check for time in dateStr  hh:mm
+  const tm = dateStr.match(/(\d{1,2}):(\d{2})/);
+  if (tm && m) {
+    const yr  = dtStart.substring(0,4);
+    const mon = dtStart.substring(4,6);
+    const day = dtStart.substring(6,8);
+    const hh  = tm[1].padStart(2,'0');
+    const mm  = tm[2];
+    dtStart   = yr+mon+day+'T'+hh+mm+'00';
+    // end: +2h
+    const endH = String(parseInt(hh)+2).padStart(2,'0');
+    dtEnd     = yr+mon+day+'T'+endH+mm+'00';
+  }
+
+  const safe = s => (s||'').replace(/[\n\r]/g,' ').replace(/;/g,'\;').replace(/,/g,'\,');
+  const uid  = 'erfurt-' + Date.now() + '@events.erfurt.de';
+
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Erfurt Events//DE',
+    'CALSCALE:GREGORIAN',
+    'BEGIN:VEVENT',
+    'UID:' + uid,
+    'DTSTAMP:' + new Date().toISOString().replace(/[-:.]/g,'').slice(0,15) + 'Z',
+    'DTSTART:' + dtStart,
+    'DTEND:'   + dtEnd,
+    'SUMMARY:' + safe(title),
+    'LOCATION:' + safe(location),
+    'DESCRIPTION:' + safe(description) + (url ? '\n\nMehr: ' + url : ''),
+    'URL:' + (url||''),
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+
+  const blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = (title.replace(/[^\w\s-]/g,'').trim().replace(/\s+/g,'_').slice(0,40) || 'event') + '.ics';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+}
+
+// ── Init from localStorage ────────────────────────────────────────────────────
+(function() {
+  const savedLang  = localStorage.getItem('erfurt-lang');
+  const savedTheme = localStorage.getItem('erfurt-theme');
+  if (savedLang && savedLang !== 'de') toggleLang();
+  if (savedTheme === 'light') toggleTheme();
+})();
+</script>
+</body>
+</html>
